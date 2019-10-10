@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList,View,TouchableOpacity,StyleSheet,TextInput , Text } from 'react-native';
+import { Button,FlatList,View,TouchableOpacity,StyleSheet,TextInput , Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
@@ -92,18 +92,19 @@ class HomeScreen extends React.Component {
         <View style={styles.list}>
         <FlatList
           data={[
-            {key: 'Devin'},
-            {key: 'Dan'},
-            {key: 'Dominic'},
-            {key: 'Jackson'},
-            {key: 'James'},
-            {key: 'Joel'},
-            {key: 'John'},
-            {key: 'Jillian'},
-            {key: 'Jimmy'},
-            {key: 'Julie'},
+            {key: 'room1'},
+            {key: 'room2'},
+            {key: 'room3'},
+            {key: 'room4'},
+            {key: 'room5'},
+            {key: 'room6'},
+            {key: 'room7'},
+            {key: 'room8'},
+            {key: 'room9'},
+            {key: 'room10'},
           ]}
-          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+          renderItem={({item}) => <TouchableOpacity  onPress={() => {alert("this will navigate to the game screen of this room")  }}>
+            <Text style={styles.item}>{item.key }</Text></TouchableOpacity>}
         />
       </View>
       </View>
@@ -142,23 +143,24 @@ class JoinScreen extends React.Component {
           <Text style={styles.submitButtonText}> Join Private Game </Text>
         </TouchableOpacity>
         <View style={{marginTop:20}}>
-        <Text style={styles.submitButtonText}> On Going Public Games </Text>
+        <Text style={styles.submitButtonText}> On Going Games </Text>
         </View>
         <View style={styles.list}>
         <FlatList
           data={[
-            {key: 'Devin'},
-            {key: 'Dan'},
-            {key: 'Dominic'},
-            {key: 'Jackson'},
-            {key: 'James'},
-            {key: 'Joel'},
-            {key: 'John'},
-            {key: 'Jillian'},
-            {key: 'Jimmy'},
-            {key: 'Julie'},
+            {key: 'room1'},
+            {key: 'room2'},
+            {key: 'room3'},
+            {key: 'room4'},
+            {key: 'room5'},
+            {key: 'room6'},
+            {key: 'room7'},
+            {key: 'room8'},
+            {key: 'room9'},
+            {key: 'room10'},
           ]}
-          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+          renderItem={({item}) =><TouchableOpacity  onPress={() => {alert("this will navigate to the game screen of this room")  }}>
+            <Text style={styles.item}>{item.key }</Text></TouchableOpacity>}
         />
       </View>
       </View>
