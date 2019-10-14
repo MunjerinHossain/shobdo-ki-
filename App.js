@@ -5,6 +5,11 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './HomeScreen';
 import JoinScreen from './JoinScreen'
 import NewGameScreen from './NewGameScreen'
+import GameboardScreen from './GameboardScreen'
+import StatScreen from "./Stats"
+
+
+import NewGameOptionsScreen from './NewGameOptionsScreen'
 
 
 const RootStack = createStackNavigator(
@@ -12,6 +17,9 @@ const RootStack = createStackNavigator(
     Home: HomeScreen,
     Join: JoinScreen,
     NewGame:NewGameScreen,
+    Gameboard:GameboardScreen,
+    GameOptionsScreen: NewGameOptionsScreen,
+    Stats: StatScreen,
   },
   {
     initialRouteName: 'Home',
@@ -20,8 +28,3 @@ const RootStack = createStackNavigator(
 
 const AppContainer = createAppContainer(RootStack);
 
-export default class App extends React.Component {
-  render() {
-    return <AppContainer />;
-  }
-}

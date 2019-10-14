@@ -60,8 +60,8 @@ export default class HomeScreen extends React.Component {
       this.props.navigation.navigate('Join')
     
     }
-    newgame_ = () => {
-      this.props.navigation.navigate('NewGame')
+    newgameoptions_ = () => {
+      this.props.navigation.navigate('GameOptionsScreen')
     
     }
 
@@ -72,7 +72,7 @@ export default class HomeScreen extends React.Component {
          <TouchableOpacity
             style={styles.submitButton}
             //onPress={() => this.login(this.state.email, this.state.password)}
-            onPress={this.newgame_}
+            onPress={this.newgameoptions_}
 
           >
             <Text style={styles.submitButtonText}> New Game </Text>

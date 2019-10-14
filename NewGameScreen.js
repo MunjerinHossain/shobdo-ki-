@@ -38,7 +38,7 @@ export default class NewGameScreen extends React.Component {
     <View style={{width:"25%",right:10}}>
   <Button
           title="Create"
-          onPress={() => this.props.navigation.navigate('Details')}
+          onPress={() => this.props.navigation.navigate('Gameboard')}
         color="red"
         width="50%"
         />
