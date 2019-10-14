@@ -32,7 +32,7 @@ export default class NewGameScreen extends React.Component {
 
         <Button
           title="Create"
-          onPress={() => this.props.navigation.navigate('Details')}
+          onPress={() => this.props.navigation.navigate('Gameboard')}
         color="red"
         width="50%"
         />
