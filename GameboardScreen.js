@@ -1,60 +1,89 @@
-import * as React from 'react';
-import { Button, View, TextInput,Switch,Text,StyleSheet } from 'react-native';
-
-export default class GameboardScreen extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {text: ''};
-    }
-    render() {
-        const keyboard = alphabet.map((letter, index) =>
-  <Button key={index} title ={letter}/>
-  
-  );
-      return (
-        <View style={key.boardContainer}>
-          <Text style={key.text}>
-          </Text>
-  
-          <View style={key.keyboard}>
-              
-            {keyboard}
-           </View>
-  
-        </View>
-      );
-    }
+import React, { Component } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { FlatGrid } from 'react-native-super-grid';
+ export default class GameboardScreen extends Component {
+  render() {
+const items = [
+      { name: 'A' }, { name: 'B' },
+      { name: 'C' }, { name: 'D' },
+      { name: 'E' }, { name: 'F' },
+      { name: 'G' }, { name: 'H' },
+      { name: 'I' }, { name: 'J' },
+      { name: 'K' }, { name: 'L' },
+      { name: 'M' }, { name: 'N' },
+      { name: 'O' }, { name: 'P' },
+      { name: 'Q' }, { name: 'R' },
+      { name: 'S' }, { name: 'T' },
+      { name: 'U' },{ name: 'V' },
+      { name: 'W' },{ name: 'X' },
+      
+    ];
+    return (
+      <>
+      <View style={styles.container}>
+        <Text style={styles.text}></Text>
+      </View>
+       <FlatGrid
+        itemDimension={65}
+        items={items}
+        style={styles.gridView}
+        // staticDimension={300}
+         //fixed
+        //spacing={10}
+        renderItem={({ item, index }) => (
+          <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
+            <Text style={styles.itemName}>{item.name}</Text>
+            <Text style={styles.itemCode}>{item.code}</Text>
+          </View>
+        )}
+      />
+      </>
+    );
   }
-  const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-                       'I', 'J', 'K', 'L', 'M', 'N', 'O', 
-                  'P','Q','R','S','T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  
-  const key = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      
-    },
+ }
+ 
+const styles = StyleSheet.create({
 
-    boardContainer: {
-      
-        flex: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-      
-    },
-            text: {
-              alignItems: 'center', height: 40, width: "50%", 
-              borderColor: 'red', borderWidth: 2, marginTop: 50,
-              marginBottom: 50 ,textAlign:'center',padding:10,
-            },        
-                      keyboard: {
-                          flexDirection: 'row',
-                          flex: 1,
-                          flexWrap: 'wrap',
-                          justifyContent: 'center',
-                          marginLeft: 5,
-                          marginRight: 5,
-                    },
-                    });
+  container: {
+    
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  text: {
+    alignItems: 'center', height: 50, width: "50%", 
+    borderColor: 'red', borderWidth: 2, marginTop: 40,
+    marginBottom: 30 ,textAlign:'center',padding: 10,
+  },     
+
+  gridView: {
+    
+    flex: 1,
+    
+  },
+  itemContainer: {
+    justifyContent: 'flex-end',
+    borderRadius: 1,
+    height: 67,
+    
+  },
+  itemName: {
+    fontSize: 20,
+    
+    color: 'black',
+    fontWeight: '600',
+    borderColor: 'black',
+    borderWidth: 1,
+    maxHeight: 100,
+    maxWidth: 100,
+    textAlign: 'center',
+  
+  },
+  itemCode: {
+    fontWeight: '600',
+    fontSize: 12,
+    color: '#fff',
+  
+  },
+});
+ 
