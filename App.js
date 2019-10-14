@@ -1,22 +1,20 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import StatScreen from "./Stats"
 
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-      </View>
-    );
-  }
-}
+const RootStack = createStackNavigator({
+  Stats: StatScreen,
 
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
+  initialRouteName: 'StatScreen',
+  
 });
 
-export default createAppContainer(AppNavigator);
+const AppContainer =  createAppContainer(RootStack);
+
+export default class App extends React.Component{
+  render(){
+    return <AppContainer />
+  }
+}
