@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList,View,TouchableOpacity,StyleSheet,TextInput , Text } from 'react-native';
+import { Image,FlatList,View,TouchableOpacity,StyleSheet,TextInput , Text } from 'react-native';
 
 const styles = StyleSheet.create({
   list: {
@@ -54,8 +54,36 @@ const styles = StyleSheet.create({
 });
 
 export default class HomeScreen extends React.Component {
+  
+  static navigationOptions={
+    title : 'Bangla Scrabble',
 
+    headerLeft:(
 
+      <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}
+      onPress={() => alert('Statistics button is pressed!')} >
+      <Image
+        source={require('./Assets/Images/statistics.png')}
+        style={styles.ImageIconStyle}
+    />
+    <View style={styles.SeparatorLine}
+    />
+    </TouchableOpacity>
+      
+    ),
+    headerRight: (
+
+      <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}
+      onPress={() => alert('Settings button is pressed!')} >
+      <Image
+        source={require('./Assets/Images/settings.jpg')}
+        style={styles.ImageIconStyle}
+    />
+    <View style={styles.SeparatorLine}
+    />
+    </TouchableOpacity>
+  ),
+  }
     joinin_ = () => {
       this.props.navigation.navigate('Join')
     
