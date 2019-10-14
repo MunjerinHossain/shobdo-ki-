@@ -32,10 +32,3 @@ export default class App extends React.Component {
     return <AppContainer />;
   }
 }
-
-export default class App extends React.Component{
-  render(){
-    return <AppContainer/>
-  }
-}
-
