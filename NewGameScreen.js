@@ -21,22 +21,29 @@ export default class NewGameScreen extends React.Component {
           onChangeText={(text) => this.setState({text})}
           value={this.state.text}
         />
-                        <Text style={{padding:10}} >{this.state.switchValue?'Private':'Public'}</Text>
+        <View style={{paddingTop:10}}>
+          <Text style={{padding:10,right:20}} >{this.state.switchValue?'Private':'Public'}</Text>
 
-<Switch style={{position:"absolute",bottom:260,
-  left:70,
-  width: 200
+<Switch style={{
+  // position:"relative",
+  // left: 60
+  bottom:32,
+  left:20,
+  
   }}
           onValueChange = {this.toggleSwitch}
           value = {this.state.switchValue}/>
+</View>
 
-        <Button
+    <View style={{width:"25%",right:10}}>
+  <Button
           title="Create"
           onPress={() => this.props.navigation.navigate('Gameboard')}
         color="red"
         width="50%"
         />
-                
+</View>
+                        
       </View>
     );
   }
