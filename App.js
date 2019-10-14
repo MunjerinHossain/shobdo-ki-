@@ -5,6 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './HomeScreen';
 import JoinScreen from './JoinScreen'
 import NewGameScreen from './NewGameScreen'
+import NewGameOptionsScreen from './NewGameOptionsScreen'
 
 
 const RootStack = createStackNavigator(
@@ -12,6 +13,7 @@ const RootStack = createStackNavigator(
     Home: HomeScreen,
     Join: JoinScreen,
     NewGame:NewGameScreen,
+    GameOptionsScreen: NewGameOptionsScreen,
   },
   {
     initialRouteName: 'Home',
