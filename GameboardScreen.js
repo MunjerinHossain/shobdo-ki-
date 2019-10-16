@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { TouchableOpacity,StyleSheet, View, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 
 import Phonetic from './Avro'
 
+
  export default class GameboardScreen extends Component {
+  
   render() {
     console.log(Phonetic.parse('hellO'))
 const items = [
@@ -36,7 +38,7 @@ const items = [
         //spacing={10}
         renderItem={({ item, index }) => (
           <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-            <Text style={styles.itemName}>{item.name}</Text>
+            <TouchableOpacity  onPress={()=>{alert(item.name)}}><Text style={styles.itemName}>{item.name}</Text></TouchableOpacity> 
             <Text style={styles.itemCode}>{item.code}</Text>
           </View>
         )}
