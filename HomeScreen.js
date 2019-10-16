@@ -76,7 +76,7 @@ export default class HomeScreen extends React.Component {
     headerRight: (
 
       <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}
-      onPress={this.settingscreen_} >
+      onPress={()=>{navigation.navigate('Settings')}} > 
       <Image
         source={require('./Assets/Images/settings.jpg')}
         style={styles.ImageIconStyle}
@@ -100,12 +100,6 @@ export default class HomeScreen extends React.Component {
     
     }
 
-    settingscreen_ = () => {
-      //function to make simple alert
-     // alert("ssadasdas")
-      this.props.navigation.navigate('Settings')
-      
-    };
 
     render() {
       return (
