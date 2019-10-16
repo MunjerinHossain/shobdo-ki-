@@ -17,7 +17,7 @@
     "react-native-screens": "^1.0.0-alpha.23",
     "react-native-super-grid": "^3.1.1",
     "react-native-table-component": "^1.2.1",
-    "react-git ": "^4.0.10",
+    "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.9.1"
   },
   "devDependencies": {

@@ -7,9 +7,11 @@ import JoinScreen from './JoinScreen'
 import NewGameScreen from './NewGameScreen'
 import GameboardScreen from './GameboardScreen'
 import StatScreen from "./Stats"
+import SettingsScreen from "./SettingsScreen"
 
 
 import NewGameOptionsScreen from './NewGameOptionsScreen'
+
 
 
 const RootStack = createStackNavigator(
@@ -20,6 +22,7 @@ const RootStack = createStackNavigator(
     Gameboard:GameboardScreen,
     GameOptionsScreen: NewGameOptionsScreen,
     Stats: StatScreen,
+    Settings: SettingsScreen,
   },
   {
     initialRouteName: 'Home',

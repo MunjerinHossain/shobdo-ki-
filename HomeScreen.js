@@ -74,7 +74,7 @@ export default class HomeScreen extends React.Component {
     headerRight: (
 
       <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}
-      onPress={() => alert('Settings button is pressed!')} >
+      onPress={this.settingscreen_} >
       <Image
         source={require('./Assets/Images/settings.jpg')}
         style={styles.ImageIconStyle}
@@ -93,6 +93,13 @@ export default class HomeScreen extends React.Component {
     
     }
 
+    settingscreen_ = () => {
+      //function to make simple alert
+     // alert("ssadasdas")
+      this.props.navigation.navigate('Settings')
+      
+    };
+
     render() {
       return (
         <View style={styles.container}>
@@ -105,7 +112,6 @@ export default class HomeScreen extends React.Component {
           >
             <Text style={styles.submitButtonText}> New Game </Text>
           </TouchableOpacity>
-  
   
           <TouchableOpacity
             style={styles.submitButton}
