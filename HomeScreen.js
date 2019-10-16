@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image,FlatList,View,TouchableOpacity,StyleSheet,TextInput , Text } from 'react-native';
 
+
 const styles = StyleSheet.create({
   list: {
     width:360,
@@ -55,13 +56,14 @@ const styles = StyleSheet.create({
 
 export default class HomeScreen extends React.Component {
   
-  static navigationOptions={
-    title : 'Bangla Scrabble',
+  static navigationOptions=({navigation, navigationOptions}) => {
+   return {title : 'Bangla Scrabble',
 
     headerLeft:(
 
       <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}
-      onPress={() => alert('Statistics button is pressed!')} >
+      onPress={()=>{navigation.navigate('Stats')}} >
+
       <Image
         source={require('./Assets/Images/statistics.png')}
         style={styles.ImageIconStyle}
@@ -84,6 +86,11 @@ export default class HomeScreen extends React.Component {
     </TouchableOpacity>
   ),
   }
+} 
+    Stats_ = () => {
+      this.props.navigation.navigate('Stats')
+    }
+
     joinin_ = () => {
       this.props.navigation.navigate('Join')
     

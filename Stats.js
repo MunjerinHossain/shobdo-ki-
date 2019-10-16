@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 export default class StatScreen extends React.Component {
+  static navigationOptions = {
+            title: 'Statistics',
+     };
     constructor(props) {
         super(props);
         this.state = {
@@ -37,8 +39,8 @@ export default class StatScreen extends React.Component {
       container: { flex: 1, padding: 0, paddingTop: 0, backgroundColor: '#fff' },
       head: {  height: 40,  backgroundColor: '#f6f8fa'  },
       wrapper: { flexDirection: 'row' },
-      title: { flex: 1, backgroundColor: '#f6f8fa' },
-      row: {  height: 28  },
+      title: { flex: 2, backgroundColor: '#f6f8fa' },
+      row: {  height: 28, backgroundColor: '#f6f8fa'  },
       text: { textAlign: 'center' }
     });
 
