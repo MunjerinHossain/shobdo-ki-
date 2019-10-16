@@ -7,6 +7,7 @@ import JoinScreen from './JoinScreen'
 import NewGameScreen from './NewGameScreen'
 import GameboardScreen from './GameboardScreen'
 import StatScreen from "./Stats"
+import Reaction from './Animation/Reaction'
 
 
 import NewGameOptionsScreen from './NewGameOptionsScreen'
@@ -20,6 +21,7 @@ const RootStack = createStackNavigator(
     Gameboard:GameboardScreen,
     GameOptionsScreen: NewGameOptionsScreen,
     Stats: StatScreen,
+    Reaction: Reaction
   },
   {
     initialRouteName: 'Home',
