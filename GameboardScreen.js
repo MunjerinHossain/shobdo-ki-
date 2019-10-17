@@ -3,12 +3,22 @@ import { TouchableOpacity,StyleSheet, View, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 
 import Phonetic from './Avro'
+import { TextInput } from 'react-native-gesture-handler';
+import { parse } from '@babel/core';
+
+
 
 
  export default class GameboardScreen extends Component {
-  
+ state = {userInput: ''}
+  letterClicked = (item) => {
+    this.setState({userInput:this.state.userInput+item.name})
+
+    
+  }
   render() {
-    console.log(Phonetic.parse('hellO'))
+  
+    
 const items = [
       { name: 'A' }, { name: 'B' },
       { name: 'C' }, { name: 'D' },
@@ -26,19 +36,27 @@ const items = [
     ];
     return (
       <>
+
+      
       <View style={styles.container}>
-        <Text style={styles.text}></Text>
+        <Text style={styles.text}>{this.state.userInput}</Text>
+
+     <View>
+        <TextInput style={styles.input}></TextInput>
+      </View>
+
       </View>
        <FlatGrid
         itemDimension={65}
         items={items}
         style={styles.gridView}
+        
         // staticDimension={300}
          //fixed
         //spacing={10}
         renderItem={({ item, index }) => (
           <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-            <TouchableOpacity  onPress={()=>{alert(item.name)}}><Text style={styles.itemName}>{item.name}</Text></TouchableOpacity> 
+            <TouchableOpacity  onPress={()=>{this.letterClicked(item)}}><Text style={styles.itemName}>{item.name}</Text></TouchableOpacity> 
             <Text style={styles.itemCode}>{item.code}</Text>
           </View>
         )}
@@ -59,7 +77,7 @@ const styles = StyleSheet.create({
   text: {
     alignItems: 'center', height: 50, width: "50%", 
     borderColor: 'red', borderWidth: 2, marginTop: 40,
-    marginBottom: 30 ,textAlign:'center',padding: 10,
+    textAlign:'center',padding: 3,
   },     
 
   gridView: {
@@ -70,7 +88,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 1,
-    height: 67,
+    height: 60,
     
   },
   itemName: {
@@ -81,7 +99,8 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     maxHeight: 100,
-    maxWidth: 100,
+    maxWidth: 80,
+    padding: 5,
     textAlign: 'center',
   
   },
@@ -91,5 +110,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   
   },
+
+ 
 });
  
