@@ -51,7 +51,11 @@ import Phonetic from './Avro'
       
       <View style={styles.container}>
         <Text style={styles.text}>{this.state.bangla}</Text>
-        <Text style={styles.text}>{this.state.userInput}</Text>
+    {this.state.userInput.split("").map((data) => {
+      return (
+        <TouchableOpacity style={styles.letter}><Text>{data}</Text></TouchableOpacity>
+      )
+    })}
 
      
       <TouchableOpacity
@@ -84,7 +88,9 @@ import Phonetic from './Avro'
  }
  
 const styles = StyleSheet.create({
-
+  letter:{
+    flexDirection:"row",
+  },
   submitButton: {
     backgroundColor: "aqua",
     width:160,
