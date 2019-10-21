@@ -10,9 +10,13 @@ import Phonetic from './Avro'
 
 
  export default class GameboardScreen extends Component {
- state = {userInput: '',capsOn:false}
-  letterClicked = (item) => {
-    this.setState({userInput:this.state.userInput+item.name})
+ state = {userInput: '',capsOn:false, bangla:''}
+  
+ letterClicked = (item) => {
+   let composedWord=this.state.userInput+item.name
+   let banglaWord=  Phonetic.parse(composedWord)
+  
+    this.setState({userInput:composedWord,bangla:banglaWord})
 
     
   } 
@@ -46,11 +50,10 @@ import Phonetic from './Avro'
 
       
       <View style={styles.container}>
+        <Text style={styles.text}>{this.state.bangla}</Text>
         <Text style={styles.text}>{this.state.userInput}</Text>
 
-     <View>
-        <TextInput style={styles.input}></TextInput>
-      </View>
+     
       <TouchableOpacity
             style={styles.submitButton}
             onPress={() => this.caps_()}
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    alignItems: 'center', height: 50, width: "50%", 
+    alignItems: 'center', height: 40, width: "50%", 
     borderColor: 'red', borderWidth: 2, marginTop: 20,
     textAlign:'center',padding: 3,
   },     
