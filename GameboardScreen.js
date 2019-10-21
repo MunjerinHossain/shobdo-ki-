@@ -1,37 +1,44 @@
 import React, { Component } from 'react';
-import { TouchableOpacity,StyleSheet, View, Text } from 'react-native';
+import { TextInput,TouchableOpacity,StyleSheet, View, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 
 import Phonetic from './Avro'
-import { TextInput } from 'react-native-gesture-handler';
-import { parse } from '@babel/core';
+
+
 
 
 
 
  export default class GameboardScreen extends Component {
- state = {userInput: ''}
+ state = {userInput: '',capsOn:false}
   letterClicked = (item) => {
     this.setState({userInput:this.state.userInput+item.name})
 
     
+  } 
+  caps_ = () => {
+    
+    this.setState({capsOn:!this.state.capsOn})
+  
   }
+  
   render() {
   
-    
-const items = [
-      { name: 'A' }, { name: 'B' },
-      { name: 'C' }, { name: 'D' },
-      { name: 'E' }, { name: 'F' },
-      { name: 'G' }, { name: 'H' },
-      { name: 'I' }, { name: 'J' },
-      { name: 'K' }, { name: 'L' },
-      { name: 'M' }, { name: 'N' },
-      { name: 'O' }, { name: 'P' },
-      { name: 'Q' }, { name: 'R' },
-      { name: 'S' }, { name: 'T' },
-      { name: 'U' },{ name: 'V' },
-      { name: 'W' },{ name: 'X' },
+
+    const letters = [
+      { name: 'a' }, { name: 'b' },
+      { name: 'c' }, { name: 'd' },
+      { name: 'e' }, { name: 'f' },
+      { name: 'g' }, { name: 'h' },
+      { name: 'i' }, { name: 'j' },
+      { name: 'k' }, { name: 'k' },
+      { name: 'm' }, { name: 'n' },
+      { name: 'o' }, { name: 'p' },
+      { name: 'q' }, { name: 'r' },
+      { name: 's' }, { name: 't' },
+      { name: 'u' },{ name: 'v' },
+      { name: 'w' },{ name: 'x' },
+      { name: 'y' },{ name: 'z' },
       
     ];
     return (
@@ -44,20 +51,27 @@ const items = [
      <View>
         <TextInput style={styles.input}></TextInput>
       </View>
-
+      <TouchableOpacity
+            style={styles.submitButton}
+            onPress={() => this.caps_()}
+          >
+            <Text style={styles.submitButtonText}> CAPSLOCK </Text>
+          </TouchableOpacity>
       </View>
        <FlatGrid
         itemDimension={65}
-        items={items}
+        items={letters}
         style={styles.gridView}
         
         // staticDimension={300}
          //fixed
         //spacing={10}
-        renderItem={({ item, index }) => (
-          <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-            <TouchableOpacity  onPress={()=>{this.letterClicked(item)}}><Text style={styles.itemName}>{item.name}</Text></TouchableOpacity> 
+        renderItem={( { item, index }) => (
+         
+         <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
+            <TouchableOpacity  onPress={()=>{this.letterClicked(item)}}><Text style={styles.itemName}>{this.state.capsOn?item.name.toLocaleUpperCase():item.name}</Text></TouchableOpacity> 
             <Text style={styles.itemCode}>{item.code}</Text>
+           
           </View>
         )}
       />
@@ -68,7 +82,21 @@ const items = [
  
 const styles = StyleSheet.create({
 
-  container: {
+  submitButton: {
+    backgroundColor: "aqua",
+    width:160,
+    padding: 20,
+    //margin: 10,
+    alignItems: "center",
+    height: 20,
+    margin: 10
+    
+  },
+  submitButtonText: {
+    color: "black",
+    fontWeight: 'bold',
+    alignItems: "center"
+  },  container: {
     
     justifyContent: 'center',
     alignItems: 'center',
@@ -76,7 +104,7 @@ const styles = StyleSheet.create({
 
   text: {
     alignItems: 'center', height: 50, width: "50%", 
-    borderColor: 'red', borderWidth: 2, marginTop: 40,
+    borderColor: 'red', borderWidth: 2, marginTop: 20,
     textAlign:'center',padding: 3,
   },     
 
@@ -100,7 +128,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     maxHeight: 100,
     maxWidth: 80,
-    padding: 5,
+    padding: 2,
     textAlign: 'center',
   
   },
