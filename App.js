@@ -8,6 +8,7 @@ import NewGameScreen from './NewGameScreen'
 import GameboardScreen from './GameboardScreen'
 import StatScreen from "./Stats"
 import Reaction from './Animation/Reaction'
+import SplashScreen from 'react-native-splash-screen'
 
 
 import NewGameOptionsScreen from './NewGameOptionsScreen'
@@ -31,6 +32,7 @@ const RootStack = createStackNavigator(
 const AppContainer = createAppContainer(RootStack);
 export default class App extends React.Component {
   render() {
+  SplashScreen.hide();
     return <AppContainer />;
   }
 }

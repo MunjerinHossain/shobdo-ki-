@@ -60,11 +60,13 @@
   
 //     }
 // })
+
+
  import React, { Component } from 'react';
  import { StyleSheet, View, Button } from 'react-native'; 
 import * as Animatable from "react-native-animatable";
 import LottieView from 'lottie-react-native';
- //import AnimatedLoader from 'react-native-animated-loader';
+import AnimatedLoader from 'react-native-animated-loader';
  export default class Reaction extends Component { 
         
             state = { slideInDown: false }; 
