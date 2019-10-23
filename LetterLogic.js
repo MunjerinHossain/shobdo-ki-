@@ -30,11 +30,11 @@ export default class Letterlogic extends React.Component{
     //         wordString: SampleArray.toString()
     //     })
     // }
-
+    //Keyboard 
     removeComma =()=> {
         var SampleArray_2 = SampleArray.toString();
         var Alphabets = "abcdefghijklmnopqrstuvwxyz"
-         var CharFreq = [];
+        var CharFreq = {};
         for(var i = 0; i < Alphabets.length; i++){
             var count = 0;
             for(var j = 0; j < SampleArray_2.length; j++) {
@@ -45,16 +45,35 @@ export default class Letterlogic extends React.Component{
                 }
                 //console.log("it works") 
             }
-            //console.log(Alphabets[i], count)
-            CharFreq.push({okkhor: Alphabets[i], freq: count})
+            
+            CharFreq[Alphabets[i]] = count
+           // console.log(Alphabets[i], count)
+           // CharFreq.push({okkhor: Alphabets[i], freq: count})
+           
+           
             
         }
-        console.table(CharFreq)
-        this.logic(CharFreq)
+        console.log(CharFreq)
+        //console.table(CharFreq)
+        return CharFreq;
     }
 
-    logic = (CharFreq)=> {
-        
+    logic = ()=> {
+        let letterscount = this.removeComma();
+        //console.log("asdasa")
+        //console.table(letterscount);
+
+        //const entries = Object.entries(letterscount) 
+        //console.log(entries)
+        var letters = [];
+        for(let [key, value] of Object.entries(letterscount)) {
+
+            if(value != 0){
+                letters.push([key, value])
+                
+            }
+        }
+        console.log(letters);
     }
     render() {
         
@@ -78,7 +97,7 @@ export default class Letterlogic extends React.Component{
 
         return (
             <View>
-                <Button title="Hello" onPress={()=>{this.removeComma()}}></Button>
+                <Button title="Hello" onPress={()=>{this.logic()}}></Button>
                 {/* <Text>{this.state.wordString}</Text>  */}
                 {/* <Button title="Hello" onPress={()=>{this.converter()}}></Button>
                 <Text>{this.state.wordString}</Text>  */}
