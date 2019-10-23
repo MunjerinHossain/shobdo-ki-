@@ -13,12 +13,18 @@ import Phonetic from './Avro'
  state = {userInput: '',capsOn:false, bangla:''}
   
  letterClicked = (item) => {
-   let composedWord=this.state.userInput+item.name
+  let composedWord=""
+   if(this.state.capsOn==true){
+    composedWord=this.state.userInput+item.name.toLocaleUpperCase()
+
+   }
+   else{
+   composedWord=this.state.userInput+item.name}
    let banglaWord=  Phonetic.parse(composedWord)
   
-    this.setState({userInput:composedWord,bangla:banglaWord})
-
-    
+  this.setState({userInput:composedWord,bangla:banglaWord})
+  
+   
   } 
   caps_ = () => {
     
