@@ -31,10 +31,10 @@ export default class GameboardScreen extends Component {
     this.setState({ capsOn: !this.state.capsOn })
 
   }
-  backspace = (data) => {
+  backspace = (index) => {
   
     let compositionbox = this.state.userInput
-    compositionbox.pop(data)
+    compositionbox.splice(index,1)
     let banglaWord = Phonetic.parse(compositionbox.join(''))
     this.setState({ userInput: compositionbox, bangla: banglaWord })
   }
@@ -80,7 +80,7 @@ export default class GameboardScreen extends Component {
               <View style={[styles.container2]}>
 
 
-                <TouchableOpacity onPress={() => { (this.backspace(item))} }><Text style={{fontSize:20}}>{item}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => { (this.backspace(index))} }><Text style={{fontSize:20}}>{item}</Text></TouchableOpacity>
 
 
               </View>
