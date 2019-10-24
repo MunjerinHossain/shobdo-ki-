@@ -54,27 +54,28 @@ export default class GameboardScreen extends Component {
 
 
         <View style={styles.container}>
+          
           <Text style={styles.text}>{this.state.bangla}</Text>
-
+        </View>
           <FlatGrid
-            itemDimension={65}
-            item={this.state.userInput}
+            itemDimension={0}
+            items={this.state.userInput}
+
             
-            style={styles.gridView}
 
             renderItem={({ item, index }) => (
-              <View style={[styles.itemContainer]}>
-                          
-                  
-                       <Text style={styles.text}>{item}</Text>
-               
-               
+              <View>
+
+
+                <Text>{item}</Text>
+
+
               </View>
             )}
 
           />
 
-
+        <View>
           <TouchableOpacity
             style={styles.submitButton}
             onPress={() => this.caps_()}
@@ -82,10 +83,12 @@ export default class GameboardScreen extends Component {
             <Text style={styles.submitButtonText}> CAPSLOCK </Text>
           </TouchableOpacity>
         </View>
+
+
         <FlatGrid
           itemDimension={65}
           items={letters}
-          letterClicked={letters}
+          // letterClicked={letters}
           style={styles.gridView}
 
           // staticDimension={300}
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
     padding: 20,
     //margin: 10,
     alignItems: "center",
-    height: 20,
+    height: 10,
     margin: 10
 
   },
