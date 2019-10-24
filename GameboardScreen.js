@@ -115,7 +115,7 @@ export default class GameboardScreen extends Component {
 
             <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
               <TouchableOpacity disabled={this.state.usedletter.indexOf(index)!=-1} onPress={() => { this.letterClicked(item,index) }}>
-                <Text style={styles.itemName}>{this.state.capsOn ? item.name.toLocaleUpperCase() : item.name}
+                <Text style={styles.itemName}>{this.state.usedletter.indexOf(index)==-1 && (this.state.capsOn ? item.name.toLocaleUpperCase() : item.name)}
                 </Text></TouchableOpacity>
               <Text style={styles.itemCode}>{item.code}</Text>
 
