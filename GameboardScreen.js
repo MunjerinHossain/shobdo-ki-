@@ -7,10 +7,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default class GameboardScreen extends Component {
-  state = { userInput: [], capsOn: false, bangla: [] }
+  state = {  usedletter:[],userInput: [], capsOn: false, bangla: [] }
 
-  letterClicked = (item) => {
-    
+  letterClicked = (item,index) => {
+   let disabledletter= this.state.usedletter
+   disabledletter.push(index)
+
     let composedWord = this.state.userInput
     if (this.state.capsOn == true) {
       composedWord.push(item.name.toLocaleUpperCase())
@@ -22,7 +24,7 @@ export default class GameboardScreen extends Component {
     }
     let banglaWord = Phonetic.parse(composedWord.join(''))
 
-    this.setState({ userInput: composedWord, bangla: banglaWord })
+    this.setState({ usedletter:disabledletter ,userInput: composedWord, bangla: banglaWord })
 
 
   }
@@ -112,7 +114,7 @@ export default class GameboardScreen extends Component {
           renderItem={({ item, index }) => (
 
             <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-              <TouchableOpacity disabled={this.state.ButtonStateHolder} onPress={() => { this.letterClicked(item) }}>
+              <TouchableOpacity disabled={this.state.usedletter.indexOf(index)!=-1} onPress={() => { this.letterClicked(item,index) }}>
                 <Text style={styles.itemName}>{this.state.capsOn ? item.name.toLocaleUpperCase() : item.name}
                 </Text></TouchableOpacity>
               <Text style={styles.itemCode}>{item.code}</Text>
