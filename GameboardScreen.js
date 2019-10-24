@@ -31,6 +31,12 @@ export default class GameboardScreen extends Component {
     this.setState({ capsOn: !this.state.capsOn })
 
   }
+  backspace = (data) => {
+  
+    let compositionbox = this.state.userInput
+    compositionbox.pop(data)
+
+  }
 
   render() {
 
@@ -51,6 +57,8 @@ export default class GameboardScreen extends Component {
       { name: 'y' }, { name: 'z' },
 
     ];
+
+    
     return (
       <>
 
@@ -59,7 +67,7 @@ export default class GameboardScreen extends Component {
           
           <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
-          <View style={{height:30}}>
+          <View style={{height:40}}>
           <FlatList
             
             data={this.state.userInput}
@@ -71,7 +79,7 @@ export default class GameboardScreen extends Component {
               <View style={[styles.container2]}>
 
 
-                <Text>{item}</Text>
+                <TouchableOpacity onPress={() => { (this.backspace(data))} }><Text style={{fontSize:20}}>{item}</Text></TouchableOpacity>
 
 
               </View>
@@ -144,10 +152,12 @@ const styles = StyleSheet.create({
   container1: {
     alignSelf: 'flex-start',
     
+    
   },
   container2: {
     alignSelf: 'flex-start',
-    padding:10
+    padding:5,
+    
   },
 
   text: {
