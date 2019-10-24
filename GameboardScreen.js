@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { TextInput, TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import { FlatList,TextInput, TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 
 import Phonetic from './Avro'
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default class GameboardScreen extends Component {
   state = { userInput: [], capsOn: false, bangla: [] }
 
   letterClicked = (item) => {
+    
     let composedWord = this.state.userInput
     if (this.state.capsOn == true) {
       composedWord.push(item.name.toLocaleUpperCase())
@@ -57,14 +59,16 @@ export default class GameboardScreen extends Component {
           
           <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
-          <FlatGrid
-            itemDimension={0}
-            items={this.state.userInput}
-
+          <View style={{height:30}}>
+          <FlatList
+            
+            data={this.state.userInput}
+            style={styles.container1}
+            horizontal={true}
             
 
             renderItem={({ item, index }) => (
-              <View>
+              <View style={[styles.container2]}>
 
 
                 <Text>{item}</Text>
@@ -74,8 +78,10 @@ export default class GameboardScreen extends Component {
             )}
 
           />
+          </View>
+          
 
-        <View>
+        <View style={[styles.container]}>
           <TouchableOpacity
             style={styles.submitButton}
             onPress={() => this.caps_()}
@@ -135,6 +141,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  container1: {
+    alignSelf: 'flex-start',
+    
+  },
+  container2: {
+    alignSelf: 'flex-start',
+    padding:10
+  },
 
   text: {
     alignItems: 'center', height: 40, width: "50%",
@@ -148,6 +162,12 @@ const styles = StyleSheet.create({
 
   },
   itemContainer: {
+    justifyContent: 'flex-end',
+    borderRadius: 1,
+    height: 60,
+
+  },
+  itemContainer1: {
     justifyContent: 'flex-end',
     borderRadius: 1,
     height: 60,
