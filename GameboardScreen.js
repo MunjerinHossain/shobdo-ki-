@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
-import { FlatList,TextInput, TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import {TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
-import { ScrollView } from 'react-native-gesture-handler';
+
 
 
 export default class GameboardScreen extends Component {
-  state = {  usedletter:[],userInput: [], capsOn: false, bangla: [] }
+  state = { usedletter: [], userInput: [], capsOn: false, bangla: [] }
 
-  letterClicked = (item,index) => {
-   let disabledletter= this.state.usedletter
-   disabledletter.push(index)
+  letterClicked = (item, index) => {
+    let disabledletter = this.state.usedletter
+    disabledletter.push(index)
 
-    let composedWord = this.state.userInput
+    let compositionbox = this.state.userInput
     if (this.state.capsOn == true) {
-      composedWord.push({letter:item.name.toLocaleUpperCase(),boardIndex:index})
+      compositionbox.push({ letter: item.name.toLocaleUpperCase(), boardIndex: index })
 
     }
     else {
-      composedWord.push({letter:item.name,boardIndex:index})
+      compositionbox.push({ letter: item.name, boardIndex: index })
     }
-    
-    let banglaWord = this.convertEngToBan(composedWord)
-    
-    this.setState({ usedletter:disabledletter ,userInput: composedWord, bangla: banglaWord })
+
+    let banglaWord = this.convertEngToBan(compositionbox)
+
+    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord })
 
 
   }
@@ -34,41 +34,42 @@ export default class GameboardScreen extends Component {
 
   }
   backspace = (index) => {
-  
+
     let compositionbox = this.state.userInput
-    let disabledIndex=this.state.usedletter.indexOf(this.state.userInput[index].boardIndex)
-    compositionbox.splice(index,1)
-    let usedletter= this.state.usedletter
-    usedletter.splice(disabledIndex,1)
+    let disabledIndex = this.state.usedletter.indexOf(this.state.userInput[index].boardIndex)
+    compositionbox.splice(index, 1)
+    let disabledletter = this.state.usedletter
+    disabledletter.splice(disabledIndex, 1)
     let banglaWord = this.convertEngToBan(compositionbox)
-    this.setState({ usedletter:usedletter,userInput: compositionbox, bangla: banglaWord })
+    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord })
   }
 
   convertEngToBan = (userInput) => {
     let Word = userInput.reduce((a, b) => a + (b.letter), "");
-     return Phonetic.parse(Word)
-     
+    return Phonetic.parse(Word)
+
   }
 
   renderItem = ({ item, index, move, moveEnd, isActive }) => {
     return (
       <TouchableOpacity
-        style={{ 
-          height: 100, 
+        style={{
+          height: 100,
           backgroundColor: isActive ? 'blue' : 'white',
-          alignItems: 'center', 
-          justifyContent: 'center' 
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
-        onPress={() => { (this.backspace(index))} }
+        onPress={() => { (this.backspace(index)) }}
+        delayLongPress={100}
         onLongPress={move}
         onPressOut={moveEnd}
       >
-        <Text style={{ 
-          fontWeight: 'bold', 
+        <Text style={{
+          fontWeight: 'bold',
           fontcolor: 'black',
           fontSize: 30,
           letterSpacing: 20
-         
+
         }}>{item.letter}</Text>
       </TouchableOpacity>
     )
@@ -94,16 +95,16 @@ export default class GameboardScreen extends Component {
 
     ];
 
-    
+
     return (
       <>
 
 
         <View style={styles.container}>
-          
+
           <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
-          {/* <View style={{height:40}}>
+        {/* <View style={{height:40}}>
           <FlatList
             
             data={this.state.userInput}
@@ -123,20 +124,20 @@ export default class GameboardScreen extends Component {
 
           />
           </View> */}
-          <View style={{height:80 }}>
-        <DraggableFlatList
-          data={this.state.userInput}
-          renderItem={this.renderItem}
-          horizontal={true}
-          keyExtractor={(item, index) => `draggable-item-${item.boardIndex}`}
-          scrollPercent={5}
-          onMoveEnd={({ data }) =>{
-            let banglaWord = this.convertEngToBan(data)
-            this.setState({ userInput:data , bangla:banglaWord })
-          } }
-        />
+        <View style={{ height: 80 }}>
+          <DraggableFlatList
+            data={this.state.userInput}
+            renderItem={this.renderItem}
+            horizontal={true}
+            keyExtractor={(item, index) => `draggable-item-${item.boardIndex}`}
+            scrollPercent={5}
+            onMoveEnd={({ data }) => {
+              let banglaWord = this.convertEngToBan(data)
+              this.setState({ userInput: data, bangla: banglaWord })
+            }}
+          />
 
-      </View>
+        </View>
 
         <View style={[styles.container]}>
           <TouchableOpacity
@@ -160,8 +161,8 @@ export default class GameboardScreen extends Component {
           renderItem={({ item, index }) => (
 
             <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-              <TouchableOpacity disabled={this.state.usedletter.indexOf(index)!=-1} onPress={() => { this.letterClicked(item,index) }}>
-                <Text style={styles.itemName}>{this.state.usedletter.indexOf(index)==-1 && (this.state.capsOn ? item.name.toLocaleUpperCase() : item.name)}
+              <TouchableOpacity disabled={this.state.usedletter.indexOf(index) != -1} onPress={() => { this.letterClicked(item, index) }}>
+                <Text style={styles.itemName}>{this.state.usedletter.indexOf(index) == -1 && (this.state.capsOn ? item.name.toLocaleUpperCase() : item.name)}
                 </Text></TouchableOpacity>
               <Text style={styles.itemCode}>{item.code}</Text>
 
@@ -200,13 +201,13 @@ const styles = StyleSheet.create({
   },
   container1: {
     alignSelf: 'flex-start',
-    
-    
+
+
   },
   container2: {
     alignSelf: 'flex-start',
-    padding:5,
-    
+    padding: 5,
+
   },
 
   text: {
