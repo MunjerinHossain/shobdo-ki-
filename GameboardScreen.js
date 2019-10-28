@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList,TextInput, TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
-
+import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -22,11 +22,8 @@ export default class GameboardScreen extends Component {
       composedWord.push({letter:item.name,boardIndex:index})
     }
     
-    let Word = composedWord.reduce((a, b) => a + (b.letter),"");
-
-    console.log(Word)
-    let banglaWord = Phonetic.parse(Word)
-
+    let banglaWord = this.convertEngToBan(composedWord)
+    
     this.setState({ usedletter:disabledletter ,userInput: composedWord, bangla: banglaWord })
 
 
@@ -43,9 +40,38 @@ export default class GameboardScreen extends Component {
     compositionbox.splice(index,1)
     let usedletter= this.state.usedletter
     usedletter.splice(disabledIndex,1)
-    let Word = compositionbox.reduce((a, b) => a + (b.letter), "");
-    let banglaWord = Phonetic.parse(Word)
+    let banglaWord = this.convertEngToBan(compositionbox)
     this.setState({ usedletter:usedletter,userInput: compositionbox, bangla: banglaWord })
+  }
+
+  convertEngToBan = (userInput) => {
+    let Word = userInput.reduce((a, b) => a + (b.letter), "");
+     return Phonetic.parse(Word)
+     
+  }
+
+  renderItem = ({ item, index, move, moveEnd, isActive }) => {
+    return (
+      <TouchableOpacity
+        style={{ 
+          height: 100, 
+          backgroundColor: isActive ? 'blue' : 'white',
+          alignItems: 'center', 
+          justifyContent: 'center' 
+        }}
+        onPress={() => { (this.backspace(index))} }
+        onLongPress={move}
+        onPressOut={moveEnd}
+      >
+        <Text style={{ 
+          fontWeight: 'bold', 
+          fontcolor: 'black',
+          fontSize: 30,
+          letterSpacing: 20
+         
+        }}>{item.letter}</Text>
+      </TouchableOpacity>
+    )
   }
 
   render() {
@@ -77,7 +103,7 @@ export default class GameboardScreen extends Component {
           
           <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
-          <View style={{height:40}}>
+          {/* <View style={{height:40}}>
           <FlatList
             
             data={this.state.userInput}
@@ -96,8 +122,21 @@ export default class GameboardScreen extends Component {
             )}
 
           />
-          </View>
-          
+          </View> */}
+          <View style={{height:80 }}>
+        <DraggableFlatList
+          data={this.state.userInput}
+          renderItem={this.renderItem}
+          horizontal={true}
+          keyExtractor={(item, index) => `draggable-item-${item.boardIndex}`}
+          scrollPercent={5}
+          onMoveEnd={({ data }) =>{
+            let banglaWord = this.convertEngToBan(data)
+            this.setState({ userInput:data , bangla:banglaWord })
+          } }
+        />
+
+      </View>
 
         <View style={[styles.container]}>
           <TouchableOpacity
