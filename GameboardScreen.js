@@ -15,14 +15,17 @@ export default class GameboardScreen extends Component {
 
     let composedWord = this.state.userInput
     if (this.state.capsOn == true) {
-      composedWord.push(item.name.toLocaleUpperCase())
+      composedWord.push({letter:item.name.toLocaleUpperCase(),boardIndex:index})
 
     }
     else {
-      composedWord.push(item.name)
-
+      composedWord.push({letter:item.name,boardIndex:index})
     }
-    let banglaWord = Phonetic.parse(composedWord.join(''))
+    
+    let Word = composedWord.reduce((a, b) => a + (b.letter),"");
+
+    console.log(Word)
+    let banglaWord = Phonetic.parse(Word)
 
     this.setState({ usedletter:disabledletter ,userInput: composedWord, bangla: banglaWord })
 
@@ -36,9 +39,13 @@ export default class GameboardScreen extends Component {
   backspace = (index) => {
   
     let compositionbox = this.state.userInput
+    let disabledIndex=this.state.usedletter.indexOf(this.state.userInput[index].boardIndex)
     compositionbox.splice(index,1)
-    let banglaWord = Phonetic.parse(compositionbox.join(''))
-    this.setState({ userInput: compositionbox, bangla: banglaWord })
+    let usedletter= this.state.usedletter
+    usedletter.splice(disabledIndex,1)
+    let Word = compositionbox.reduce((a, b) => a + (b.letter), "");
+    let banglaWord = Phonetic.parse(Word)
+    this.setState({ usedletter:usedletter,userInput: compositionbox, bangla: banglaWord })
   }
 
   render() {
@@ -82,7 +89,7 @@ export default class GameboardScreen extends Component {
               <View style={[styles.container2]}>
 
 
-                <TouchableOpacity onPress={() => { (this.backspace(index))} }><Text style={{fontSize:20}}>{item}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => { (this.backspace(index))} }><Text style={{fontSize:20}}>{item.letter}</Text></TouchableOpacity>
 
 
               </View>
