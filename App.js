@@ -7,7 +7,9 @@ import JoinScreen from './JoinScreen'
 import NewGameScreen from './NewGameScreen'
 import GameboardScreen from './GameboardScreen'
 import StatScreen from "./Stats"
-import SettingsScreen from "./SettingsScreen"
+import Reaction from './Animation/Reaction'
+import SplashScreen from 'react-native-splash-screen'
+import SplashAnimation from './SplashAnimation'
 
 
 import NewGameOptionsScreen from './NewGameOptionsScreen'
@@ -23,17 +25,18 @@ const RootStack = createStackNavigator(
     Gameboard:GameboardScreen,
     GameOptionsScreen: NewGameOptionsScreen,
     Stats: StatScreen,
-    Settings: SettingsScreen,
-    
+    Reaction: Reaction,
+    Splash: SplashAnimation
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Splash',
   }
 );
 
 const AppContainer = createAppContainer(RootStack);
 export default class App extends React.Component {
   render() {
+  SplashScreen.hide();
     return <AppContainer />;
   }
 }
