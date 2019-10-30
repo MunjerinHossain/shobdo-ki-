@@ -55,9 +55,43 @@ export default class Letterlogic extends React.Component{
 
     generateKeyboard=()=> {
         let keycount = this.sortLetters();
-        var letters1 = [];
-       // console.log(keycount)
+        var letters1 = {};
 
+        var lol = Object.values(keycount)
+        var lol1= lol.reduce((a, b) => a + b,0)
+        //console.log(lol1);
+        var keylength = 28;
+        for(let [key, value] of Object.entries(keycount)){
+            var abc = value/lol1;
+            var def = abc * keylength
+            if(def < 1){
+                letters1[key] = Math.ceil(def);
+            }
+            else{
+                letters1[key] = Math.floor(def);
+                if(letters1[key] > 3){
+                    letters1[key] = 3;
+                    
+                }
+            }
+
+        }
+
+        //console.log(letters1);
+        //console.log(def);
+
+            
+
+            // if(def >= 3){
+            //     for(var i = 0; i < 3; i++){
+            //         letters1.push({key})
+            //     }
+            // }
+            // else if(def < 3){
+
+            // }
+        //}
+        //console.log(letters1)
         //for(var i = 0; i < keycount.length; i++){
            
             // if(keycount[i] >= 5){
@@ -67,28 +101,36 @@ export default class Letterlogic extends React.Component{
             // //     }
             // }
         //}
-        for(let [key, value] of Object.entries(keycount)) {
-            if( value >= 5){
-                for(var i = 0; i < 3; i++){
-                    letters1.push({key, value});
+        /*START Very very important */
+        // for(let [key, value] of Object.entries(keycount)) {
+        //     if( value >= 5){
+        //         for(var i = 0; i < 3; i++){
+        //             letters1.push({key, value});
                     
-                }
+        //         }
                 
-            }
-            else if(value < 5 && value > 2){
-                for(var i = 0; i <2; i++){
-                    letters1.push({key, value});
-                }
-            }
-            else{
-                for(var i = 0; i <1; i++){
-                    letters1.push({key, value});
-                }
-            }
-            
-        }
+        //     }
+        //     else if(value < 5 && value > 3){
+        //         for(var i = 0; i <2; i++){
+        //             letters1.push({key, value});
+        //         }
+        //     }
+        //     else{
+        //         for(var i = 0; i <1; i++){
+        //             letters1.push({key, value});
+        //         }
+        //     }
+        /*END */
+            // if(value == 1){
+            //     letters1.push({key, value})
+            // }
+            // else if(value == 2 && value == 3){
+            //     letters1.push({key, value})
+            // }
+            // else if(value)
+        //}
         
-        console.table(letters1);
+        //console.table(letters1);
         //console.log(letters1)
         // for(let [key, value] of Object.entries(keycount)) {
         //     if(value == 5){
@@ -97,6 +139,8 @@ export default class Letterlogic extends React.Component{
         //         }
         //     }
         // } [["a",9]]
+
+
 
     }
 
