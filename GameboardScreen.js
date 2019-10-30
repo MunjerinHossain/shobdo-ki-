@@ -3,7 +3,7 @@ import {TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
-
+import generateKeyboard from './LetterLogic'
 
 
 export default class GameboardScreen extends Component {
@@ -94,7 +94,8 @@ export default class GameboardScreen extends Component {
       { name: 'y' }, { name: 'z' },
 
     ];
-
+   
+    generateKeyboard()
 
     return (
       <>

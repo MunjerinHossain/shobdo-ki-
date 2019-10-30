@@ -17,10 +17,7 @@ var SampleArray = ["bhalo",
 
 
 
-export default Letterlogic = {
-
-    //Keyboard Rules 
-    letterFrequency=()=> {
+ const letterFrequency=()=> {
         var SampleArray_2 = SampleArray.toString();
         var Alphabets = "abcdefghijklmnopqrstuvwxyz"
         var CharFreq = {};
@@ -38,10 +35,10 @@ export default Letterlogic = {
         //console.log(CharFreq)
         //console.table(CharFreq)
         return CharFreq;
-    },
+    }
 
-    sortLetters=()=> {
-        let letterscount = this.letterFrequency();
+    const sortLetters=()=> {
+        let letterscount = letterFrequency();
         //var letters = [];
         var Letters = {};
         
@@ -53,10 +50,10 @@ export default Letterlogic = {
         }
         //console.log(Letters);
         return Letters;
-    },
+    }
 
-    generateKeyboard=()=> {
-        let keycount = this.sortLetters();
+    const generateKeyboard=()=> {
+        let keycount = sortLetters();
         var letters1 = {};
 
         var lol = Object.values(keycount)
@@ -78,5 +75,8 @@ export default Letterlogic = {
             }
 
         }
+
+        return letters1
     }
-}
+
+    export default generateKeyboard;
