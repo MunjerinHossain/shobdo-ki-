@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, Image, Button} from 'react-native';
+
 var SampleArray = ["bhalo",
 "apu" ,
 "ma" ,
@@ -15,7 +14,10 @@ var SampleArray = ["bhalo",
 "jambura",
 "zumka"
 ];
-export default class Letterlogic extends React.Component{
+
+
+
+export default Letterlogic = {
 
     //Keyboard Rules 
     letterFrequency=()=> {
@@ -36,7 +38,7 @@ export default class Letterlogic extends React.Component{
         //console.log(CharFreq)
         //console.table(CharFreq)
         return CharFreq;
-    }
+    },
 
     sortLetters=()=> {
         let letterscount = this.letterFrequency();
@@ -51,7 +53,7 @@ export default class Letterlogic extends React.Component{
         }
         //console.log(Letters);
         return Letters;
-    }
+    },
 
     generateKeyboard=()=> {
         let keycount = this.sortLetters();
@@ -76,82 +78,5 @@ export default class Letterlogic extends React.Component{
             }
 
         }
-
-        //console.log(letters1);
-        //console.log(def);
-
-            
-
-            // if(def >= 3){
-            //     for(var i = 0; i < 3; i++){
-            //         letters1.push({key})
-            //     }
-            // }
-            // else if(def < 3){
-
-            // }
-        //}
-        //console.log(letters1)
-        //for(var i = 0; i < keycount.length; i++){
-           
-            // if(keycount[i] >= 5){
-            //     console.log("np")
-            // //    for(var j = 0; j < 3; j++){
-            // //         letters1.push(keycount[i])
-            // //     }
-            // }
-        //}
-        /*START Very very important */
-        // for(let [key, value] of Object.entries(keycount)) {
-        //     if( value >= 5){
-        //         for(var i = 0; i < 3; i++){
-        //             letters1.push({key, value});
-                    
-        //         }
-                
-        //     }
-        //     else if(value < 5 && value > 3){
-        //         for(var i = 0; i <2; i++){
-        //             letters1.push({key, value});
-        //         }
-        //     }
-        //     else{
-        //         for(var i = 0; i <1; i++){
-        //             letters1.push({key, value});
-        //         }
-        //     }
-        /*END */
-            // if(value == 1){
-            //     letters1.push({key, value})
-            // }
-            // else if(value == 2 && value == 3){
-            //     letters1.push({key, value})
-            // }
-            // else if(value)
-        //}
-        
-        //console.table(letters1);
-        //console.log(letters1)
-        // for(let [key, value] of Object.entries(keycount)) {
-        //     if(value == 5){
-        //         for(var i = 0; i < 3; i++){
-        //             letters1.push(key)
-        //         }
-        //     }
-        // } [["a",9]]
-
-
-
-    }
-
-    render() {
-        return (
-            <View>
-                <Button title="Hello" onPress={()=>{this.generateKeyboard()}}></Button>
-                {/* <Text>{this.state.wordString}</Text>  */}
-                {/* <Button title="Hello" onPress={()=>{this.converter()}}></Button>
-                <Text>{this.state.wordString}</Text>  */}
-            </View>
-        );
     }
 }
