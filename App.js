@@ -11,6 +11,7 @@ import SettingsScreen from "./SettingsScreen"
 
 
 import NewGameOptionsScreen from './NewGameOptionsScreen'
+import Letterlogic from './LetterLogic';
 
 
 
@@ -23,9 +24,10 @@ const RootStack = createStackNavigator(
     GameOptionsScreen: NewGameOptionsScreen,
     Stats: StatScreen,
     Settings: SettingsScreen,
+    Letters: Letterlogic
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Letters',
   }
 );
 
