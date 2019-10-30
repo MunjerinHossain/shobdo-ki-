@@ -104,11 +104,26 @@ export default class HomeScreen extends React.Component {
       this.props.navigation.navigate('Reaction')
     
     }
+    splashoptions_ = () => {
+      this.props.navigation.navigate('Splash')
+    
+    }
 
     render() {
       return (
         <View style={styles.container}>
-          
+
+          <TouchableOpacity
+            style={styles.submitButton}
+            //onPress={() => this.login(this.state.email, this.state.password)}
+            onPress={this.splashoptions_}
+
+          >
+            <Text style={styles.submitButtonText}> Splash Screen </Text>
+          </TouchableOpacity>          
+
+
+
           <TouchableOpacity
             style={styles.submitButton}
             //onPress={() => this.login(this.state.email, this.state.password)}

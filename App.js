@@ -9,6 +9,7 @@ import GameboardScreen from './GameboardScreen'
 import StatScreen from "./Stats"
 import Reaction from './Animation/Reaction'
 import SplashScreen from 'react-native-splash-screen'
+import SplashAnimation from './SplashAnimation'
 
 
 import NewGameOptionsScreen from './NewGameOptionsScreen'
@@ -22,10 +23,11 @@ const RootStack = createStackNavigator(
     Gameboard:GameboardScreen,
     GameOptionsScreen: NewGameOptionsScreen,
     Stats: StatScreen,
-    Reaction: Reaction
+    Reaction: Reaction,
+    Splash: SplashAnimation
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Splash',
   }
 );
 
