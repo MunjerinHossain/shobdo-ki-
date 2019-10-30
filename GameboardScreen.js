@@ -3,7 +3,7 @@ import {TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
-import generateKeyboard from './LetterLogic'
+import keyboard1 from './LetterLogic'
 
 
 export default class GameboardScreen extends Component {
@@ -78,24 +78,31 @@ export default class GameboardScreen extends Component {
   render() {
 
 
-    const letters = [
-      { name: 'a' }, { name: 'b' },
-      { name: 'c' }, { name: 'd' },
-      { name: 'e' }, { name: 'f' },
-      { name: 'g' }, { name: 'h' },
-      { name: 'i' }, { name: 'j' },
-      { name: 'k' }, { name: 'k' },
-      { name: 'm' }, { name: 'n' },
-      { name: 'o' }, { name: 'p' },
-      { name: 'q' }, { name: 'r' },
-      { name: 's' }, { name: 't' },
-      { name: 'u' }, { name: 'v' },
-      { name: 'w' }, { name: 'x' },
-      { name: 'y' }, { name: 'z' },
+    // const letters = [
+    //   { name: 'a' }, { name: 'b' },
+    //   { name: 'c' }, { name: 'd' },
+    //   { name: 'e' }, { name: 'f' },
+    //   { name: 'g' }, { name: 'h' },
+    //   { name: 'i' }, { name: 'j' },
+    //   { name: 'k' }, { name: 'k' },
+    //   { name: 'm' }, { name: 'n' },
+    //   { name: 'o' }, { name: 'p' },
+    //   { name: 'q' }, { name: 'r' },
+    //   { name: 's' }, { name: 't' },
+    //   { name: 'u' }, { name: 'v' },
+    //   { name: 'w' }, { name: 'x' },
+    //   { name: 'y' }, { name: 'z' },
 
-    ];
-   
-    generateKeyboard()
+    // ];
+
+    let letters = []
+    let temp = keyboard1()
+    console.log("render")
+    temp.forEach((item)=> {
+      console.log(item)
+     letters.push({name: item.letter})
+    })
+    console.log("game", letters)
 
     return (
       <>
