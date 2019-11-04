@@ -1,22 +1,42 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import HomeScreen from './HomeScreen';
+import JoinScreen from './JoinScreen'
+import NewGameScreen from './NewGameScreen'
+import GameboardScreen from './GameboardScreen'
+import StatScreen from "./Stats"
+import Reaction from './Animation/Reaction'
+import SplashScreen from 'react-native-splash-screen'
+import SplashAnimation from './SplashAnimation'
 
-class HomeScreen extends React.Component {
+
+import NewGameOptionsScreen from './NewGameOptionsScreen'
+
+
+
+
+const RootStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Join: JoinScreen,
+    NewGame:NewGameScreen,
+    Gameboard:GameboardScreen,
+    GameOptionsScreen: NewGameOptionsScreen,
+    Stats: StatScreen,
+    Reaction: Reaction,
+    Splash: SplashAnimation
+  },
+  {
+    initialRouteName: 'Splash',
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
+export default class App extends React.Component {
   render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-      </View>
-    );
+  SplashScreen.hide();
+    return <AppContainer />;
   }
 }
-
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
-});
-
-export default createAppContainer(AppNavigator);
