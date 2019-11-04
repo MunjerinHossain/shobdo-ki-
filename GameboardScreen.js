@@ -4,11 +4,11 @@ import { FlatGrid } from 'react-native-super-grid';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
 import keyboard1 from './LetterLogic'
-
+import validateWord from './BanglaWordLists'
 
 
 export default class GameboardScreen extends Component {
-  state = { usedletter: [], userInput: [], capsOn: false, bangla: [] }
+  state = { usedletter: [], userInput: [], capsOn: false, bangla: [], valid:false }
 
   letterClicked = (item, index) => {
     let disabledletter = this.state.usedletter
@@ -24,8 +24,9 @@ export default class GameboardScreen extends Component {
     }
 
     let banglaWord = this.convertEngToBan(compositionbox)
-
-    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord })
+    let valid = validateWord(banglaWord)
+    
+    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid:valid })
 
 
   }
@@ -42,7 +43,8 @@ export default class GameboardScreen extends Component {
     let disabledletter = this.state.usedletter
     disabledletter.splice(disabledIndex, 1)
     let banglaWord = this.convertEngToBan(compositionbox)
-    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord })
+    let valid = validateWord(banglaWord)
+    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid:valid })
   }
 
   convertEngToBan = (userInput) => {
@@ -75,6 +77,11 @@ export default class GameboardScreen extends Component {
       </TouchableOpacity>
     )
   }
+
+  // wordvalidate = () => {
+  //   var word1 = this.state.bangla;
+  //   console.log(word1);
+  // }
 
   render() {
 
@@ -113,6 +120,12 @@ export default class GameboardScreen extends Component {
 
           <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
+        <View style={[styles.container]}>
+          
+            <Text style={styles.text}> {this.state.valid?'true':'false'} </Text>
+          
+        </View>
+
         {/* <View style={{height:40}}>
           <FlatList
             
@@ -142,7 +155,8 @@ export default class GameboardScreen extends Component {
             scrollPercent={5}
             onMoveEnd={({ data }) => {
               let banglaWord = this.convertEngToBan(data)
-              this.setState({ userInput: data, bangla: banglaWord })
+              let valid = validateWord(banglaWord)
+              this.setState({ userInput: data, bangla: banglaWord, valid:valid })
             }}
           />
 
