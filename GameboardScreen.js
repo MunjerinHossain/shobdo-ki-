@@ -6,6 +6,7 @@ import Phonetic from './Avro'
 import keyboard1 from './LetterLogic'
 
 
+
 export default class GameboardScreen extends Component {
   state = { usedletter: [], userInput: [], capsOn: false, bangla: [] }
 
@@ -99,10 +100,10 @@ export default class GameboardScreen extends Component {
     let temp = keyboard1()
     console.log("render")
     temp.forEach((item)=> {
-      console.log(item)
+      //console.log(item)
      letters.push({name: item.letter})
     })
-    console.log("game", letters)
+    //console.log("game", letters)
 
     return (
       <>

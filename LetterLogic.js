@@ -93,7 +93,7 @@ var SampleArray = ["bhalo",
                 letters2.push({letter: key, Player1: 0, Player2: 0})
             }
         }
-        console.log("Before ",letters2.length)
+        //console.log("Before ",letters2.length)
         //console.table(letters2)
         if(letters2.length < 28){
             let temp= letters2.length
@@ -105,8 +105,8 @@ var SampleArray = ["bhalo",
             }
         }
         
-        console.table(letters2)
-        console.log("After ",letters2.length)
+        //console.table(letters2)
+        //console.log("After ",letters2.length)
         return letters2;
         
     }
