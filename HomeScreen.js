@@ -1,5 +1,5 @@
-import React from 'react';
-import { Image,FlatList,View,TouchableOpacity,StyleSheet,TextInput , Text } from 'react-native';
+import React, {Component} from 'react';
+import { BackHandler, Image,FlatList,View,TouchableOpacity,StyleSheet,TextInput , Text } from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -55,7 +55,15 @@ const styles = StyleSheet.create({
 });
 
 export default class HomeScreen extends React.Component {
-  
+  componentDidMount(){
+        this.backButton = BackHandler.addEventListener('hardwareBackPress', () =>{
+          BackHandler.exitApp()
+          return true;
+          });
+      }
+      componentWillUnmount(){
+      this.backButton.remove();
+      }
   static navigationOptions=({navigation, navigationOptions}) => {
    return {title : 'Bangla Scrabble',
 
@@ -99,12 +107,13 @@ export default class HomeScreen extends React.Component {
       this.props.navigation.navigate('GameOptionsScreen')
     
     }
-
+    
 
     render() {
       return (
         <View style={styles.container}>
-          
+    
+
          <TouchableOpacity
             style={styles.submitButton}
             //onPress={() => this.login(this.state.email, this.state.password)}

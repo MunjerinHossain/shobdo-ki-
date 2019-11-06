@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, TextInput,Switch,Text,StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { Button, View, TextInput,Switch,Text,StyleSheet, Alert, TouchableOpacity, } from 'react-native';
 
 
 export default class NewGameScreen extends React.Component {
@@ -47,8 +47,14 @@ export default class NewGameScreen extends React.Component {
     <View style={{width:"25%",right:10}}>
   <Button
           title="Create"
-           onPress={() => this.props.navigation.navigate('PostFetch', { gameCode: this.state.text, value: this.state.switchValue})}
+           onPress={() => this.props.navigation.navigate('PostFetch', { gameName: this.state.text, value: this.state.switchValue})}
         color="red"
+        width="50%"
+        />
+  <Button
+          title="Game Board"
+           onPress={() => this.props.navigation.navigate('Gameboard')}
+        color="blue"
         width="50%"
         />
 </View>

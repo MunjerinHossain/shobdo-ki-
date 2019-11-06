@@ -9,6 +9,8 @@ import GameboardScreen from './GameboardScreen'
 import StatScreen from "./Stats"
 import SettingsScreen from "./SettingsScreen"
 import PostFetch from "./PostFetch"
+import SplashScreen from 'react-native-splash-screen'
+import SplashAnimation from './SplashAnimation'
 
 
 import NewGameOptionsScreen from './NewGameOptionsScreen'
@@ -27,15 +29,17 @@ const RootStack = createStackNavigator(
     Settings: SettingsScreen,
     PostFetch: PostFetch,
     
+    Splash: SplashAnimation
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Splash',
   }
 );
 
 const AppContainer = createAppContainer(RootStack);
 export default class App extends React.Component {
   render() {
+  SplashScreen.hide();
     return <AppContainer />;
   }
 }

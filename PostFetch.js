@@ -17,7 +17,7 @@ handlePress = async () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          gameCode: this.props.navigation.getParam('gameCode'),
+          gameName: this.props.navigation.getParam('gameName'),
           gameType: this.props.navigation.getParam('value')
         }),
       })
