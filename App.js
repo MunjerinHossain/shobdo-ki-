@@ -8,6 +8,7 @@ import NewGameScreen from './NewGameScreen'
 import GameboardScreen from './GameboardScreen'
 import StatScreen from "./Stats"
 import SettingsScreen from "./SettingsScreen"
+import PostFetch from "./PostFetch"
 
 
 import NewGameOptionsScreen from './NewGameOptionsScreen'
@@ -24,6 +25,7 @@ const RootStack = createStackNavigator(
     GameOptionsScreen: NewGameOptionsScreen,
     Stats: StatScreen,
     Settings: SettingsScreen,
+    PostFetch: PostFetch,
     
   },
   {

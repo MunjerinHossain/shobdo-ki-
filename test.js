@@ -13,6 +13,6 @@ try {
     console.error(err);
   }
 
-export default words;
+//export default words;
 //console.log(words)
 //console.log(words)
