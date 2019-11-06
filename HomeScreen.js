@@ -107,26 +107,12 @@ export default class HomeScreen extends React.Component {
       this.props.navigation.navigate('GameOptionsScreen')
     
     }
-
-    reactionoptions_ = () => {
-      this.props.navigation.navigate('Reaction')
-    
-    }
     
 
     render() {
       return (
         <View style={styles.container}>
-        
-
-          <TouchableOpacity
-            style={styles.submitButton}
-            //onPress={() => this.login(this.state.email, this.state.password)}
-            onPress={this.reactionoptions_}
-
-          >
-            <Text style={styles.submitButtonText}> Reaction </Text>
-          </TouchableOpacity>
+    
 
          <TouchableOpacity
             style={styles.submitButton}
