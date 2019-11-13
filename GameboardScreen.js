@@ -103,7 +103,7 @@ export default class GameboardScreen extends Component {
   randomNumber() {
     var min=0
     var max=17
-    var result = Math.floor(Math.random() * (max - min) ) + min;
+    return Math.floor(Math.random() * (max - min) ) + min;
   }
 
   // wordvalidate = () => {
