@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import {TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import {TouchableOpacity, StyleSheet, View, Text , Alert} from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
 import keyboard1 from './LetterLogic'
 import validateWord from './BanglaWordLists'
+import { Button } from 'react-native-paper';
 
 
 export default class GameboardScreen extends Component {
@@ -70,12 +71,39 @@ export default class GameboardScreen extends Component {
         <Text style={{
           fontWeight: 'bold',
           fontcolor: 'black',
-          fontSize: 30,
+          fontSize: 25,
           letterSpacing: 20
 
         }}>{item.letter}</Text>
       </TouchableOpacity>
     )
+  }
+
+  AlertButton(){
+
+   
+    Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => console.log()},
+      ],
+      {cancelable: false},
+    );
+  }
+
+  
+
+  randomNumber() {
+    var min=0
+    var max=17
+    var result = Math.floor(Math.random() * (max - min) ) + min;
   }
 
   // wordvalidate = () => {
@@ -86,31 +114,34 @@ export default class GameboardScreen extends Component {
   render() {
 
 
-    // const letters = [
-    //   { name: 'a' }, { name: 'b' },
-    //   { name: 'c' }, { name: 'd' },
-    //   { name: 'e' }, { name: 'f' },
-    //   { name: 'g' }, { name: 'h' },
-    //   { name: 'i' }, { name: 'j' },
-    //   { name: 'k' }, { name: 'k' },
-    //   { name: 'm' }, { name: 'n' },
-    //   { name: 'o' }, { name: 'p' },
-    //   { name: 'q' }, { name: 'r' },
-    //   { name: 's' }, { name: 't' },
-    //   { name: 'u' }, { name: 'v' },
-    //   { name: 'w' }, { name: 'x' },
-    //   { name: 'y' }, { name: 'z' },
+    const letters = [
+      { name: 'a' }, { name: 'b' },
+      { name: 'c' }, { name: 'd' },
+      { name: 'e' }, { name: 'f' },
+      { name: 'g' }, { name: 'h' },
+      { name: 'i' }, { name: 'j' },
+      { name: 'k' }, { name: 'k' },
+      { name: 'm' }, { name: 'n' },
+      { name: 'o' }, { name: 'p' },
+      { name: 'q' }, { name: 'r' },
+      { name: 's' }, { name: 't' },
+      { name: 'u' }, { name: 'v' },
+      { name: 'w' }, { name: 'x' },
+      { name: 'y' }, { name: 'z' },
 
-    // ];
+    ];
 
-    let letters = []
-    let temp = keyboard1()
-    console.log("render")
-    temp.forEach((item)=> {
-      //console.log(item)
-     letters.push({name: item.letter})
-    })
-    //console.log("game", letters)
+    // let letters = []
+    // let temp = keyboard1()
+    // console.log("render")
+    // temp.forEach((item)=> {
+    //   //console.log(item)
+    //  letters.push({name: item.letter})
+    // })
+    // //console.log("game", letters)
+
+
+
 
     return (
       <>
@@ -123,7 +154,20 @@ export default class GameboardScreen extends Component {
         <View style={[styles.container]}>
           
             <Text style={styles.text}> {this.state.valid?'true':'false'} </Text>
+           
           
+        </View>
+
+        
+
+        
+
+        <View>
+
+          <Button onPress={()=> this.AlertButton()}>
+            <Text style={styles.submitButtonText}>hdh</Text>
+          </Button>
+ 
         </View>
 
         {/* <View style={{height:40}}>
@@ -184,8 +228,8 @@ export default class GameboardScreen extends Component {
           renderItem={({ item, index }) => (
 
             <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-              <TouchableOpacity disabled={this.state.usedletter.indexOf(index) != -1} onPress={() => { this.letterClicked(item, index) }}>
-                <Text style={styles.itemName}>{this.state.usedletter.indexOf(index) == -1 && (this.state.capsOn ? item.name.toLocaleUpperCase() : item.name)}
+              <TouchableOpacity  onPress={() => { this.letterClicked(item, index) }}>
+                <Text style={styles.itemName}>{(this.state.capsOn ? item.name.toLocaleUpperCase() : item.name)}
                 </Text></TouchableOpacity>
               <Text style={styles.itemCode}>{item.code}</Text>
 

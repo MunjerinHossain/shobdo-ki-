@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'BanglaScrabble' do
-  # Pods for BanglaScrabble
+target 'ShobdoKi' do
+  # Pods for ShobdoKi
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -36,7 +36,7 @@ target 'BanglaScrabble' do
 
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
-  target 'BanglaScrabbleTests' do
+  target 'ShobdoKiTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -44,10 +44,10 @@ target 'BanglaScrabble' do
   use_native_modules!
 end
 
-target 'BanglaScrabble-tvOS' do
-  # Pods for BanglaScrabble-tvOS
+target 'ShobdoKi-tvOS' do
+  # Pods for ShobdoKi-tvOS
 
-  target 'BanglaScrabble-tvOSTests' do
+  target 'ShobdoKi-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
