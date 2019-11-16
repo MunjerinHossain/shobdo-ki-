@@ -4,12 +4,13 @@ import { FlatGrid } from 'react-native-super-grid';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
 import keyboard1 from './LetterLogic'
-import validateWord from './BanglaWordLists'
+import getDictionary from './BanglaWordLists'
 import { Button } from 'react-native-paper';
 
 
 export default class GameboardScreen extends Component {
-  state = { usedletter: [], userInput: [], capsOn: false, bangla: [], valid:false }
+  state = { usedletter: [], userInput: [], capsOn: false, bangla: [], randomDictionary: [],
+    hint: "", word: "", level: "",valid:false }
 
   letterClicked = (item, index) => {
     let disabledletter = this.state.usedletter
@@ -25,7 +26,7 @@ export default class GameboardScreen extends Component {
     }
 
     let banglaWord = this.convertEngToBan(compositionbox)
-    let valid = validateWord(banglaWord)
+    let valid = this.validateWord(banglaWord)
     
     this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid:valid })
 
@@ -44,7 +45,7 @@ export default class GameboardScreen extends Component {
     let disabledletter = this.state.usedletter
     disabledletter.splice(disabledIndex, 1)
     let banglaWord = this.convertEngToBan(compositionbox)
-    let valid = validateWord(banglaWord)
+    let valid = this.validateWord(banglaWord)
     this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid:valid })
   }
 
@@ -70,7 +71,7 @@ export default class GameboardScreen extends Component {
       >
         <Text style={{
           fontWeight: 'bold',
-          fontcolor: 'black',
+          fontColor: 'black',
           fontSize: 25,
           letterSpacing: 20
 
@@ -92,7 +93,7 @@ export default class GameboardScreen extends Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => console.log()},
+        {text: 'OK', onPress: () => console.log(this.validateWord())},
       ],
       {cancelable: false},
     );
@@ -101,16 +102,37 @@ export default class GameboardScreen extends Component {
   
 
   randomNumber() {
+    
+
     var min=0
     var max=17
     return Math.floor(Math.random() * (max - min) ) + min;
-  }
+  } 
 
   // wordvalidate = () => {
   //   var word1 = this.state.bangla;
   //   console.log(word1);
   // }
+componentDidMount(){
+  let dictionary = getDictionary()
+ let index = this.randomNumber();
+ let hint = dictionary[index].hint
+ let word = dictionary[index].word
+ let level = dictionary[index].level
+   
+    this.setState({hint:hint, word:word, level:level})
+}
 
+validateWord=()=>{
+
+ let match1 = this.state.hint
+ let match2 = this.state.word
+ let valid = match1.localeCompare(match2)
+
+this.setState({valid:valid})
+  
+
+}
   render() {
 
 
@@ -120,7 +142,7 @@ export default class GameboardScreen extends Component {
       { name: 'e' }, { name: 'f' },
       { name: 'g' }, { name: 'h' },
       { name: 'i' }, { name: 'j' },
-      { name: 'k' }, { name: 'k' },
+      { name: 'k' }, { name: 'l' },
       { name: 'm' }, { name: 'n' },
       { name: 'o' }, { name: 'p' },
       { name: 'q' }, { name: 'r' },
@@ -155,20 +177,25 @@ export default class GameboardScreen extends Component {
           
             <Text style={styles.text}> {this.state.valid?'true':'false'} </Text>
            
-          
         </View>
-
-        
-
-        
 
         <View>
+    <Text>{this.state.hint}</Text>
 
-          <Button onPress={()=> this.AlertButton()}>
-            <Text style={styles.submitButtonText}>hdh</Text>
-          </Button>
- 
         </View>
+
+        
+        <View>
+    <Text>{this.state.level}</Text>
+        </View>
+        <View>
+
+<Button onPress={()=> this.AlertButton()}>
+  <Text style={styles.submitButtonText}>Next</Text>
+</Button>
+
+</View>
+
 
         {/* <View style={{height:40}}>
           <FlatList
@@ -199,7 +226,7 @@ export default class GameboardScreen extends Component {
             scrollPercent={5}
             onMoveEnd={({ data }) => {
               let banglaWord = this.convertEngToBan(data)
-              let valid = validateWord(banglaWord)
+              let valid = this.validateWord(banglaWord)
               this.setState({ userInput: data, bangla: banglaWord, valid:valid })
             }}
           />
