@@ -93,7 +93,7 @@ export default class GameboardScreen extends Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => console.log(this.validateWord())},
+        {text: 'OK', onPress: () => this.validateWord()},
       ],
       {cancelable: false},
     );
@@ -113,23 +113,29 @@ export default class GameboardScreen extends Component {
   //   var word1 = this.state.bangla;
   //   console.log(word1);
   // }
-componentDidMount(){
-  let dictionary = getDictionary()
- let index = this.randomNumber();
- let hint = dictionary[index].hint
- let word = dictionary[index].word
- let level = dictionary[index].level
+  componentDidMount(){
+    this.generateWord()
    
-    this.setState({hint:hint, word:word, level:level})
-}
+  }
+  generateWord=()=>{
+    let dictionary = getDictionary()
+    let index = this.randomNumber();
+    let hint = dictionary[index].hint
+    let word = dictionary[index].word
+    let level = dictionary[index].level
+       this.setState({hint:hint, word:word, level:level})
+      }
 
 validateWord=()=>{
 
- let match1 = this.state.hint
+ let match1 = this.state.bangla
  let match2 = this.state.word
- let valid = match1.localeCompare(match2)
 
-this.setState({valid:valid})
+ if(match1===match2){
+   this.setState({valid: true})
+ }
+
+
   
 
 }
@@ -191,6 +197,11 @@ this.setState({valid:valid})
         <View>
 
 <Button onPress={()=> this.AlertButton()}>
+  <Text style={styles.submitButtonText}>Submit</Text>
+</Button>
+
+
+<Button disabled={this.state.valid ? false : true} onPress={()=> this.generateWord()}>
   <Text style={styles.submitButtonText}>Next</Text>
 </Button>
 
