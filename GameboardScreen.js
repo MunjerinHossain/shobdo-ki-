@@ -118,21 +118,24 @@ export default class GameboardScreen extends Component {
    
   }
   generateWord=()=>{
-    let dictionary = getDictionary()
+    let dictionaryOriginal = getDictionary()
+    let dictionary = dictionaryOriginal
     let index = this.randomNumber();
+    console.log("index" + index)
     let hint = dictionary[index].hint
     let word = dictionary[index].word
     let level = dictionary[index].level
-       this.setState({hint:hint, word:word, level:level})
+       this.setState({hint:hint, word:word, level:level, valid: false})
       }
 
 validateWord=()=>{
 
  let match1 = this.state.bangla
  let match2 = this.state.word
-
+ 
  if(match1===match2){
    this.setState({valid: true})
+   
  }
 
 
