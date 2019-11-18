@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {TouchableOpacity, StyleSheet, View, Text , Alert} from 'react-native';
+import {TouchableOpacity, StyleSheet, View, Text , Alert, AsyncStorage} from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
@@ -9,7 +9,7 @@ import { Button } from 'react-native-paper';
 
 
 export default class GameboardScreen extends Component {
-  state = { usedletter: [], userInput: [], capsOn: false, bangla: [], randomDictionary: [],
+  state = { usedletter: [], userInput: [], capsOn: false, bangla: [], asyncDictionary: {},
     hint: "", word: "", level: "",valid:false }
 
   letterClicked = (item, index) => {
@@ -82,6 +82,8 @@ export default class GameboardScreen extends Component {
 
   AlertButton(){
 
+let dictionary = getDictionary()
+    this.getToken(dictionary)
    
     Alert.alert(
       'Alert Title',
@@ -119,13 +121,16 @@ export default class GameboardScreen extends Component {
   }
   generateWord=()=>{
     let dictionaryOriginal = getDictionary()
+
     let dictionary = dictionaryOriginal
     let index = this.randomNumber();
     console.log("index" + index)
     let hint = dictionary[index].hint
     let word = dictionary[index].word
     let level = dictionary[index].level
-       this.setState({hint:hint, word:word, level:level, valid: false})
+       this.setState({hint:hint, word:word, level:level, valid: false, asyncDictionary: dictionary})
+     
+     this.storeToken(dictionary)
       }
 
 validateWord=()=>{
@@ -138,10 +143,29 @@ validateWord=()=>{
    
  }
 
-
-  
-
 }
+
+
+async storeToken(dictionary) {
+  try {
+     await AsyncStorage.setItem('dictionary', JSON.stringify(dictionary));
+     console.log(JSON.stringify(dictionary))
+  } catch (error) {
+    console.log("Something went wrong", error);
+  }
+}
+
+  async getToken(dictionary) {
+    try {
+      let data = await AsyncStorage.getItem("dictionary");
+      // let data = JSON.parse(data);
+      // console.log(data);
+      console.log("Fstorage"+ JSON.parse(JSON.stringify(data)))
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+  
   render() {
 
 
