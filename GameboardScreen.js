@@ -1,16 +1,113 @@
 import React, { Component } from 'react';
-import {TouchableOpacity, StyleSheet, View, Text , Alert, AsyncStorage} from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Text, Alert, AsyncStorage } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
 import keyboard1 from './LetterLogic'
 import getDictionary from './BanglaWordLists'
-import { Button } from 'react-native-paper';
+import { Button } from 'react-native-paper'
 
 
 export default class GameboardScreen extends Component {
-  state = { usedletter: [], userInput: [], capsOn: false, bangla: [], asyncDictionary: {},
-    hint: "", word: "", level: "",valid:false }
+  state = {
+    usedletter: [], userInput: [], capsOn: false, bangla: [], asyncDictionary: [],
+    hint: "", word: "", level: "", usedWord: [], valid: false, dictionaryCheck: false
+  }
+
+  
+componentDidMount() {
+    this.checkAsyncStorage()
+  
+  }
+  
+//generates random index
+randomNumber() {
+  var min = 0
+  var max = 17
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+// if dictionary check value is true, it means async is not empty
+checkAsyncStorage=async()=>{
+  let value = await AsyncStorage.getItem('dictionary') 
+  //async function returns a promise object not the value of async storage getItem()
+  console.log("val" + JSON.stringify(value))
+  let dictionary = []
+  if(value != null){
+    console.log("value")
+    dictionary = value
+    this.setState({asyncDictionary:value})
+  }
+ else{
+   dictionary = getDictionary()
+   this.setState({asyncDictionary: dictionary})
+ }
+ this.generateWord(dictionary)
+}
+
+showNext = () =>{
+  //slicing
+}
+
+//if storage is empty, dictionary will be generated from getDictionary()
+//if storage is not empty, dictionary will be generated from async getItem
+generateWord = dictionaryOriginal => {
+  console.log("dfdf",JSON.stringify(dictionaryOriginal))
+  let dictionary = dictionaryOriginal
+  let index = this.randomNumber();
+  let hint = dictionary[index].hint
+  let word = dictionary[index].word
+  let level = dictionary[index].level
+  this.setState({ hint: hint, word: word, level: level, valid: false, asyncDictionary: dictionary },
+    ()=>{ this.storeToken(this.state.asyncDictionary)})
+ 
+}
+
+validateWord = () => {
+
+  let match1 = this.state.bangla
+  let match2 = this.state.word
+
+  if (match1 === match2) {
+    this.setState({ valid: true })
+
+  }
+
+}
+
+//stores data
+async storeToken(dictionary) {
+  try {
+    await AsyncStorage.setItem('dictionary', JSON.stringify(dictionary));
+    console.log('store'+ JSON.stringify(dictionary))
+  } catch (error) {
+    console.log("Something went wrong", error);
+  }
+}
+
+//gets data
+async getToken() {
+  try {
+    
+    let data = await AsyncStorage.getItem('dictionary')
+    if(data!=null){
+    console.log('get' + JSON.parse(JSON.stringify(data)))
+    let result =  JSON.parse(data)
+    this.setState({asyncDictionary: result})
+
+    
+    //return isn't working here 
+    //getting a promise in async 
+    //we could possibly use setstate
+  }
+ 
+
+  } catch (error) {
+    console.log("Something went wrong", error);
+  }
+}
+
 
   letterClicked = (item, index) => {
     let disabledletter = this.state.usedletter
@@ -27,16 +124,18 @@ export default class GameboardScreen extends Component {
 
     let banglaWord = this.convertEngToBan(compositionbox)
     let valid = this.validateWord(banglaWord)
-    
-    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid:valid })
+
+    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid: valid })
 
 
   }
+
   caps_ = () => {
 
     this.setState({ capsOn: !this.state.capsOn })
 
   }
+
   backspace = (index) => {
 
     let compositionbox = this.state.userInput
@@ -46,7 +145,7 @@ export default class GameboardScreen extends Component {
     disabledletter.splice(disabledIndex, 1)
     let banglaWord = this.convertEngToBan(compositionbox)
     let valid = this.validateWord(banglaWord)
-    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid:valid })
+    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid: valid })
   }
 
   convertEngToBan = (userInput) => {
@@ -80,92 +179,24 @@ export default class GameboardScreen extends Component {
     )
   }
 
-  AlertButton(){
-
-let dictionary = getDictionary()
-    this.getToken(dictionary)
-   
+  AlertButton() {
     Alert.alert(
       'Alert Title',
       'My Alert Msg',
       [
-        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        { text: 'I am bored', onPress: () => console.log('quit') },
         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => this.validateWord()},
+        { text: 'Confirm', onPress: () => this.validateWord()  },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   }
 
-  
 
-  randomNumber() {
-    
-
-    var min=0
-    var max=17
-    return Math.floor(Math.random() * (max - min) ) + min;
-  } 
-
-  // wordvalidate = () => {
-  //   var word1 = this.state.bangla;
-  //   console.log(word1);
-  // }
-  componentDidMount(){
-    this.generateWord()
-   
-  }
-  generateWord=()=>{
-    let dictionaryOriginal = getDictionary()
-
-    let dictionary = dictionaryOriginal
-    let index = this.randomNumber();
-    console.log("index" + index)
-    let hint = dictionary[index].hint
-    let word = dictionary[index].word
-    let level = dictionary[index].level
-       this.setState({hint:hint, word:word, level:level, valid: false, asyncDictionary: dictionary})
-     
-     this.storeToken(dictionary)
-      }
-
-validateWord=()=>{
-
- let match1 = this.state.bangla
- let match2 = this.state.word
- 
- if(match1===match2){
-   this.setState({valid: true})
-   
- }
-
-}
-
-
-async storeToken(dictionary) {
-  try {
-     await AsyncStorage.setItem('dictionary', JSON.stringify(dictionary));
-     console.log(JSON.stringify(dictionary))
-  } catch (error) {
-    console.log("Something went wrong", error);
-  }
-}
-
-  async getToken(dictionary) {
-    try {
-      let data = await AsyncStorage.getItem("dictionary");
-      // let data = JSON.parse(data);
-      // console.log(data);
-      console.log("Fstorage"+ JSON.parse(JSON.stringify(data)))
-    } catch (error) {
-      console.log("Something went wrong", error);
-    }
-  }
-  
   render() {
 
 
@@ -207,32 +238,32 @@ async storeToken(dictionary) {
           <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
         <View style={[styles.container]}>
-          
-            <Text style={styles.text}> {this.state.valid?'true':'false'} </Text>
-           
-        </View>
 
-        <View>
-    <Text>{this.state.hint}</Text>
+          <Text style={styles.text}> {this.state.valid ? 'true' : 'false'} </Text>
 
         </View>
 
-        
         <View>
-    <Text>{this.state.level}</Text>
+          <Text>{this.state.hint}</Text>
+
+        </View>
+
+
+        <View>
+          <Text>{this.state.level}</Text>
         </View>
         <View>
 
-<Button onPress={()=> this.AlertButton()}>
-  <Text style={styles.submitButtonText}>Submit</Text>
-</Button>
+          <Button onPress={() => this.AlertButton()}>
+            <Text style={styles.submitButtonText}>Submit</Text>
+          </Button>
 
 
-<Button disabled={this.state.valid ? false : true} onPress={()=> this.generateWord()}>
-  <Text style={styles.submitButtonText}>Next</Text>
-</Button>
+          <Button disabled={this.state.valid ? false : true} onPress={() => this.showNext()}>
+            <Text style={styles.submitButtonText}>Next</Text>
+          </Button>
 
-</View>
+        </View>
 
 
         {/* <View style={{height:40}}>
@@ -265,7 +296,7 @@ async storeToken(dictionary) {
             onMoveEnd={({ data }) => {
               let banglaWord = this.convertEngToBan(data)
               let valid = this.validateWord(banglaWord)
-              this.setState({ userInput: data, bangla: banglaWord, valid:valid })
+              this.setState({ userInput: data, bangla: banglaWord, valid: valid })
             }}
           />
 
@@ -293,7 +324,7 @@ async storeToken(dictionary) {
           renderItem={({ item, index }) => (
 
             <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-              <TouchableOpacity  onPress={() => { this.letterClicked(item, index) }}>
+              <TouchableOpacity onPress={() => { this.letterClicked(item, index) }}>
                 <Text style={styles.itemName}>{(this.state.capsOn ? item.name.toLocaleUpperCase() : item.name)}
                 </Text></TouchableOpacity>
               <Text style={styles.itemCode}>{item.code}</Text>
