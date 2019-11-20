@@ -11,102 +11,130 @@ import { Button } from 'react-native-paper'
 export default class GameboardScreen extends Component {
   state = {
     usedletter: [], userInput: [], capsOn: false, bangla: [], asyncDictionary: [],
-    hint: "", word: "", level: "", usedWord: [], valid: false, dictionaryCheck: false
+    hint: "", word: "", level: "", usedWord: [], valid: false, dictionaryCheck: false, indexSlice: [], maxLength: 17,
+    point: null
   }
 
-  
-componentDidMount() {
+
+  componentDidMount() {
     this.checkAsyncStorage()
-  
-  }
-  
-//generates random index
-randomNumber() {
-  var min = 0
-  var max = 17
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-
-// if dictionary check value is true, it means async is not empty
-checkAsyncStorage=async()=>{
-  let value = await AsyncStorage.getItem('dictionary') 
-  //async function returns a promise object not the value of async storage getItem()
-  console.log("val" + JSON.stringify(value))
-  let dictionary = []
-  if(value != null){
-    console.log("value")
-    dictionary = value
-    this.setState({asyncDictionary:value})
-  }
- else{
-   dictionary = getDictionary()
-   this.setState({asyncDictionary: dictionary})
- }
- this.generateWord(dictionary)
-}
-
-showNext = () =>{
-  //slicing
-}
-
-//if storage is empty, dictionary will be generated from getDictionary()
-//if storage is not empty, dictionary will be generated from async getItem
-generateWord = dictionaryOriginal => {
-  console.log("dfdf",JSON.stringify(dictionaryOriginal))
-  let dictionary = dictionaryOriginal
-  let index = this.randomNumber();
-  let hint = dictionary[index].hint
-  let word = dictionary[index].word
-  let level = dictionary[index].level
-  this.setState({ hint: hint, word: word, level: level, valid: false, asyncDictionary: dictionary },
-    ()=>{ this.storeToken(this.state.asyncDictionary)})
- 
-}
-
-validateWord = () => {
-
-  let match1 = this.state.bangla
-  let match2 = this.state.word
-
-  if (match1 === match2) {
-    this.setState({ valid: true })
 
   }
 
-}
-
-//stores data
-async storeToken(dictionary) {
-  try {
-    await AsyncStorage.setItem('dictionary', JSON.stringify(dictionary));
-    console.log('store'+ JSON.stringify(dictionary))
-  } catch (error) {
-    console.log("Something went wrong", error);
+  //generates random index
+  randomNumber() {
+    var min = 0
+    var max = this.state.maxLength
+    console.log("gfh")
+    return Math.floor(Math.random() * (max - min)) + min;
   }
-}
 
-//gets data
-async getToken() {
-  try {
+
+  // if dictionary check value is true, it means async is not empty
+  checkAsyncStorage = async () => {
+    let value = await AsyncStorage.getItem('dictionary')
+    //async function returns a promise object not the value of async storage getItem()
+    //console.log("val" + JSON.stringify(value))
+    let dictionary = []
+    if (value != null) {
+      console.log("value")
+      dictionary = value
+
+    }
+    else {
+      dictionary = getDictionary()
+      console.log("blank")
+
+    }
+    this.setState({ asyncDictionary: dictionary }, () => {
+      this.generateWord(dictionary)
+    })
+
+  }
+
+  showNext = () => {
+    //slicing
+    let indexSlice = this.state.indexSlice
+    let dictionary = this.state.asyncDictionary
+    dictionary.splice(indexSlice, 1)
+
+    console.log("Spliced" + indexSlice)
+  this.setState({maxLength: dictionary.length}, ()=>{
+    this.generateWord(dictionary)
+  })
     
-    let data = await AsyncStorage.getItem('dictionary')
-    if(data!=null){
-    console.log('get' + JSON.parse(JSON.stringify(data)))
-    let result =  JSON.parse(data)
-    this.setState({asyncDictionary: result})
 
-    
-    //return isn't working here 
-    //getting a promise in async 
-    //we could possibly use setstate
-  }
- 
+    // this.setState({})
 
-  } catch (error) {
-    console.log("Something went wrong", error);
   }
-}
+
+  //if storage is empty, dictionary will be generated from getDictionary()
+  //if storage is not empty, dictionary will be generated from async getItem
+  generateWord = dictionaryOriginal => {
+    //console.log("dfdf",JSON.stringify(dictionaryOriginal))
+    let dictionary = dictionaryOriginal
+    let index = this.randomNumber();
+    console.log("index" + index)
+    let hint = dictionary[index].hint
+    let word = dictionary[index].word
+    let level = dictionary[index].level
+    this.setState({
+      hint: hint, word: word, level: level, valid: false, asyncDictionary: dictionary, indexSlice: index,
+      bangla: "", userInput: []
+    },
+      () => { this.storeToken(this.state.asyncDictionary) })
+
+  }
+
+  validateWord = () => {
+
+    let match1 = this.state.bangla
+    let match2 = this.state.word
+
+    if (match1 === match2) {
+      this.setState({ valid: true })
+
+    }
+
+  }
+
+  pointWord = ()=>{
+    let point = (this.state.word.length)*5
+
+
+  }
+
+  //stores data
+  async storeToken(dictionary) {
+    try {
+      await AsyncStorage.setItem('dictionary', JSON.stringify(dictionary));
+      console.log('store' + JSON.stringify(dictionary))
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
+  //gets data
+  async getToken() {
+    try {
+
+      let data = await AsyncStorage.getItem('dictionary')
+      if (data != null) {
+        console.log('get' + JSON.parse(JSON.stringify(data)))
+        let result = JSON.parse(data)
+        this.setState({ asyncDictionary: result })
+
+
+        //return isn't working here 
+        //getting a promise in async 
+        //we could possibly use setstate
+      }
+
+
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
 
 
   letterClicked = (item, index) => {
@@ -158,7 +186,7 @@ async getToken() {
     return (
       <TouchableOpacity
         style={{
-          height: 100,
+          height: 50,
           backgroundColor: isActive ? 'blue' : 'white',
           alignItems: 'center',
           justifyContent: 'center'
@@ -190,7 +218,7 @@ async getToken() {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Confirm', onPress: () => this.validateWord()  },
+        { text: 'Confirm', onPress: () => this.validateWord() },
       ],
       { cancelable: false },
     );
@@ -234,12 +262,22 @@ async getToken() {
 
 
         <View style={styles.container}>
+          <View>
 
-          <Text style={styles.text}>{this.state.bangla}</Text>
+            <Button onPress={() => this.AlertButton()} >
+              <Text style={styles.submitButtonText}>Submit</Text>
+            </Button>
+
+          </View>
+
+          
+        </View>
+        <View>
+        <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
         <View style={[styles.container]}>
 
-          <Text style={styles.text}> {this.state.valid ? 'true' : 'false'} </Text>
+          <Text> {this.state.valid ? 'true' : 'false'} </Text>
 
         </View>
 
@@ -252,19 +290,13 @@ async getToken() {
         <View>
           <Text>{this.state.level}</Text>
         </View>
+
         <View>
-
-          <Button onPress={() => this.AlertButton()}>
-            <Text style={styles.submitButtonText}>Submit</Text>
-          </Button>
-
-
-          <Button disabled={this.state.valid ? false : true} onPress={() => this.showNext()}>
-            <Text style={styles.submitButtonText}>Next</Text>
-          </Button>
-
+        <Button disabled={this.state.valid ? false : true} onPress={() => { this.showNext() }}>
+              <Text style={styles.nextButton}>Next</Text>
+            </Button>
         </View>
-
+  
 
         {/* <View style={{height:40}}>
           <FlatList
@@ -343,18 +375,32 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: "aqua",
-    width: 160,
+    width: 140,
     padding: 20,
     //margin: 10,
     alignItems: "center",
-    height: 10,
-    margin: 10
+ 
+    //margin: 10
 
   },
   submitButtonText: {
     color: "black",
     fontWeight: 'bold',
-    alignItems: "center"
+   
+   
+  },
+
+  nextButton: {
+    
+    color: "black",
+    fontWeight: 'bold',
+    backgroundColor: "aqua",
+    width: 160,
+    padding: 20,
+    //margin: 10,
+    alignItems: "center",
+ 
+    //margin: 10
   },
 
   container: {
@@ -374,6 +420,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
+    justifyContent: 'center',
     alignItems: 'center', height: 40, width: "50%",
     borderColor: 'red', borderWidth: 2, marginTop: 20,
     textAlign: 'center', padding: 3,
