@@ -23,6 +23,8 @@ export default class GameboardScreen extends Component {
 
   //generates random index
   randomNumber() {
+
+    //random generating along with index Update
     var min = 0
     var max = this.state.maxLength
     console.log("gfh")
@@ -53,7 +55,7 @@ export default class GameboardScreen extends Component {
   }
 
   showNext = () => {
-    //slicing
+    //splicing
     let indexSlice = this.state.indexSlice
     let dictionary = this.state.asyncDictionary
     dictionary.splice(indexSlice, 1)
@@ -99,8 +101,19 @@ export default class GameboardScreen extends Component {
   }
 
   pointWord = ()=>{
-    let point = (this.state.word.length)*5
+    //point systems
+    let point = this.state.asyncDictionary
 
+    if(this.state.asyncDictionary === this.state.level){
+      point=(this.state.level.length)*5
+    }
+
+    console.log("point"+ point)
+
+    this.setState({asyncDictionary:point, point:point})
+
+    //logic isn't not logical
+    //point system is working with word.length
 
   }
 
@@ -292,7 +305,8 @@ export default class GameboardScreen extends Component {
         </View>
 
         <View>
-        <Button disabled={this.state.valid ? false : true} onPress={() => { this.showNext() }}>
+        <Button disabled={this.state.valid ? false : true} onPress={() => { this.showNext()
+           this.pointWord() }}>
               <Text style={styles.nextButton}>Next</Text>
             </Button>
         </View>

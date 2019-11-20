@@ -5,7 +5,7 @@ import { Button, View, TextInput,Switch,Text,StyleSheet, Alert, TouchableOpacity
 export default class NewGameScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {point: ''};
+    this.state = {text: '', switchValue: false};
   }
   //state = {switchValue:false}
   
@@ -22,8 +22,8 @@ export default class NewGameScreen extends React.Component {
        <TextInput
           style={{height: 40, width: "50%", borderColor: 'red', borderWidth: 1,textAlign:'center',padding:10}}
           placeholder="Earned Points"
-          onChangeText={(point) => this.setState({point})}
-          point={this.state.point}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
             
         />
         {/* <Button
