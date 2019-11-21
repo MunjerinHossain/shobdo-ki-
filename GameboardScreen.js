@@ -11,14 +11,46 @@ import { Button } from 'react-native-paper'
 export default class GameboardScreen extends Component {
   state = {
     usedletter: [], userInput: [], capsOn: false, bangla: [], asyncDictionary: [],
-    hint: "", word: "", level: "", usedWord: [], valid: false, dictionaryCheck: false, indexSlice: [], maxLength: 17,
-    total: ''}
+    hint: "", word: "", level: "", usedWord: [], valid: false, dictionaryCheck: false, indexSlice: [], maxLength: 0,
+    total: 0, singleWordPoint: 0}
 
 
   componentDidMount() {
     this.checkAsyncStorage()
+    this.getPoint()
 
   }
+
+  static navigationOptions = ({ navigation, navigationOptions }) => {
+    return {
+      title: 'Play',
+      headerLeft: (
+        <TouchableOpacity activeOpacity={0.5}
+          onPress={() => {
+            Alert.alert(
+              'Cancel',
+              'Do You want to cancel?',
+              [
+                { text: 'YES', onPress: () =>{ navigation.getParam('update')()
+                  navigation.navigate('Home') }},//console.warn('YES Pressed')
+                { text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel' },
+                //
+              ]
+            );
+            //
+          }
+          }
+        >
+          <Text>Quit</Text>
+          <View 
+          />
+        </TouchableOpacity>
+      ),
+      // title: navigation.getParam('task').title
+    }
+  }
+
+
 
   //generates random index
   randomNumber() {
@@ -47,13 +79,32 @@ export default class GameboardScreen extends Component {
       console.log("blank")
 
     }
-    this.setState({ asyncDictionary: dictionary }, () => {
+    this.setState({ asyncDictionary: dictionary, maxLength: dictionary.length-1}, () => {
       this.generateWord(dictionary)
     })
 
   }
 
+  // checkAsyncPoint = async () =>{
+  //   let checkScore = await AsyncStorage.getItem('score')
+  //   //async function returns a promise object not the value of async storage getItem()
+    
+  //   let score = []
+  //   if (checkScore != null) {
+  //     console.log("checkScore")
+  //     dictionary = JSON.parse(checkScore)
+
+  //   }
+  //   else {
+     
+  //     console.log("blankScore")
+
+  //   }
+  //   this.setState({ checkScore: score })
+  // }
+
   showNext = () => {
+    this.pointWord() 
     //splicing
     let indexSlice = this.state.indexSlice
     let dictionary = this.state.asyncDictionary
@@ -112,23 +163,17 @@ point = this.state.level == "Difficult" ? 10 : point
 
   // if(pointLevel === all){
     let score = (this.state.level.length) + point
-    this.setState({point:this.state.total + score})
+    let total= this.state.total + score
+    this.setState({total:total, singleWordPoint:score}, ()=> {this.storePoint(total)})
     //async store total score
 
     console.log("point"+ score)
    //}
 
-   
-
-    //this.setState({asyncDictionary:pointLevel, pointLevel:pointLevel})
-
-    //logic isn't not logical
-    //point system is working with word.length
-
   }
 
   //stores data
-  async storeToken(dictionary) {
+  storeToken = async(dictionary) =>{
     try {
       await AsyncStorage.setItem('dictionary', JSON.stringify(dictionary));
       console.log('store' + JSON.stringify(dictionary))
@@ -138,7 +183,7 @@ point = this.state.level == "Difficult" ? 10 : point
   }
 
   //gets data
-  async getToken() {
+ getToken = async() => {
     try {
 
       let data = await AsyncStorage.getItem('dictionary')
@@ -158,6 +203,31 @@ point = this.state.level == "Difficult" ? 10 : point
       console.log("Something went wrong", error);
     }
   }
+ storePoint= async(total)=>{
+
+    try {
+      await AsyncStorage.setItem('score', JSON.stringify(total));
+      console.log('storeScore' + JSON.stringify(total))
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+   }
+
+    getPoint = async() =>{
+    try {
+
+      let storePoint = await AsyncStorage.getItem('score')
+      if (storePoint != null) {
+        console.log('getScore' + JSON.parse(JSON.stringify(storePoint)))
+        let save = Number(storePoint)
+        this.setState({ total:save })
+
+      }
+
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+   }
 
 
   letterClicked = (item, index) => {
@@ -188,6 +258,8 @@ point = this.state.level == "Difficult" ? 10 : point
   }
 
   backspace = (index) => {
+
+    //same words cannot returning
 
     let compositionbox = this.state.userInput
     let disabledIndex = this.state.usedletter.indexOf(this.state.userInput[index].boardIndex)
@@ -316,7 +388,7 @@ point = this.state.level == "Difficult" ? 10 : point
 
         <View>
         <Button disabled={this.state.valid ? false : true} onPress={() => { this.showNext()
-           this.pointWord() }}>
+           }}>
               <Text style={styles.nextButton}>Next</Text>
             </Button>
         </View>

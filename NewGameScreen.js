@@ -1,13 +1,35 @@
 import * as React from 'react';
-import { Button, View, TextInput,Switch,Text,StyleSheet, Alert, TouchableOpacity, } from 'react-native';
+import { Button, View, Text,StyleSheet, Alert, TouchableOpacity,AsyncStorage } from 'react-native';
 
 
 export default class NewGameScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {text: '', switchValue: false};
+ 
+    state = {total: 0}
+  
+
+componentDidMount() {
+
+   this.getPoint()
+
   }
-  //state = {switchValue:false}
+
+
+  getPoint = async()=> {
+    try {
+
+      let storePoint = await AsyncStorage.getItem('score')
+      console.log("storePoint" + storePoint)
+      if (storePoint != null) {
+        console.log('getScore' + JSON.parse(JSON.stringify(storePoint)))
+       
+        this.setState({total:storePoint })
+
+      }
+
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+   }
   
   
   render() {
@@ -17,28 +39,23 @@ export default class NewGameScreen extends React.Component {
       <View style={ styles.container}>
 
         <View>
-          <Text style={styles.home}>Total Points</Text>
+          <Text style={styles.home}>Total Points: {this.state.total}</Text>
         </View>
-       <Text
-          style={{height: 40, width: "50%", borderColor: 'red', borderWidth: 1,textAlign:'center',padding:10}}
-          placeholder="Earned Points"
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-            
-        />
-        {/* <Button
-          title="Show"
-          onPress={Alert.alert(gameCode)}
-        color="red"
-        width="50%"
-        /> */}
+       <View>
+       <Text>
+          {this.state.total}
+         
+          </Text> 
+        
+       </View>
+      
         
 
     <View style={{width:"25%",right:10}}>
 
   <Button
           title="Start"
-           onPress={() => this.props.navigation.navigate('Gameboard')}
+           onPress={() => this.props.navigation.navigate('Gameboard',{update:this.getPoint})}
         color="blue"
         width="50%"
         />
