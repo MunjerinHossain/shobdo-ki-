@@ -12,8 +12,7 @@ export default class GameboardScreen extends Component {
   state = {
     usedletter: [], userInput: [], capsOn: false, bangla: [], asyncDictionary: [],
     hint: "", word: "", level: "", usedWord: [], valid: false, dictionaryCheck: false, indexSlice: [], maxLength: 17,
-    point: null
-  }
+    total: ''}
 
 
   componentDidMount() {
@@ -40,7 +39,7 @@ export default class GameboardScreen extends Component {
     let dictionary = []
     if (value != null) {
       console.log("value")
-      dictionary = value
+      dictionary = JSON.parse(value)
 
     }
     else {
@@ -102,15 +101,26 @@ export default class GameboardScreen extends Component {
 
   pointWord = ()=>{
     //point systems
-    let point = this.state.asyncDictionary
+    // let all = this.state.asyncDictionary
+    // console.log("di"+ all.map((all)=>(all.level,this.state.index)))
+    // let pointLevel = this.state.level
+    // console.log("level"+ pointLevel)
+let point = 0
+point = this.state.level == "Easy" ? 3 : point
+point = this.state.level == "Medium" ? 5 : point
+point = this.state.level == "Difficult" ? 10 : point
 
-    if(this.state.asyncDictionary === this.state.level){
-      point=(this.state.level.length)*5
-    }
+  // if(pointLevel === all){
+    let score = (this.state.level.length) + point
+    this.setState({point:this.state.total + score})
+    //async store total score
 
-    console.log("point"+ point)
+    console.log("point"+ score)
+   //}
 
-    this.setState({asyncDictionary:point, point:point})
+   
+
+    //this.setState({asyncDictionary:pointLevel, pointLevel:pointLevel})
 
     //logic isn't not logical
     //point system is working with word.length

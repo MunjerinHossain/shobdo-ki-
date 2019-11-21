@@ -19,7 +19,7 @@ export default class NewGameScreen extends React.Component {
         <View>
           <Text style={styles.home}>Total Points</Text>
         </View>
-       <TextInput
+       <Text
           style={{height: 40, width: "50%", borderColor: 'red', borderWidth: 1,textAlign:'center',padding:10}}
           placeholder="Earned Points"
           onChangeText={(text) => this.setState({text})}
