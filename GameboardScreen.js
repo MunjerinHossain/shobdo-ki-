@@ -14,6 +14,11 @@ export default class GameboardScreen extends Component {
     hint: "", word: "", level: "", usedWord: [], valid: false, dictionaryCheck: false, indexSlice: [], maxLength: 0,
     total: 0, singleWordPoint: 0}
 
+    static navigationOptions = ({ navigation, navigationOptions }) => {
+      return {
+        header: null
+      }
+    }
 
   componentDidMount() {
     this.checkAsyncStorage()
@@ -21,34 +26,51 @@ export default class GameboardScreen extends Component {
 
   }
 
-  static navigationOptions = ({ navigation, navigationOptions }) => {
-    return {
-      title: 'Play',
-      headerLeft: (
-        <TouchableOpacity activeOpacity={0.5}
-          onPress={() => {
-            Alert.alert(
-              'Cancel',
-              'Do You want to cancel?',
-              [
-                { text: 'YES', onPress: () =>{ navigation.getParam('update')()
-                  navigation.navigate('Home') }},//console.warn('YES Pressed')
-                { text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel' },
-                //
-              ]
-            );
-            //
-          }
-          }
-        >
-          <Text>Quit</Text>
-          <View 
-          />
-        </TouchableOpacity>
-      ),
-      // title: navigation.getParam('task').title
-    }
-  }
+  // static navigationOptions = ({ navigation, navigationOptions }) => {
+  //   return {
+    
+  //     headerLeft: (
+  //       <TouchableOpacity activeOpacity={0.5}
+  //         onPress={() => {
+  //           Alert.alert(
+  //             'Quit',
+  //             'Do You want to quit the game?',
+  //             [
+  //               { text: 'YES', onPress: () =>{ navigation.getParam('update')()
+  //                 navigation.navigate('Home') }},//console.warn('YES Pressed')
+  //               { text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel' },
+  //               //
+  //             ]
+  //           );
+  //           //
+  //         }
+  //         }
+  //       >
+  //         <Text style={styles.quit}>Quit</Text>
+  //         <View 
+  //         />
+  //       </TouchableOpacity>
+  //     ),
+  //     // title: navigation.getParam('task').title
+
+  //     // headerRight: (
+
+  //     //   <TouchableOpacity activeOpacity={0.5}
+  //     //     disabled={this.state.valid ? false : true} onPress={() => { this.showNext()
+  //     //     }}>
+
+  //     //       <View>
+              
+  //     //   <Text>dsds {this.state.valid}</Text>
+  //     //     <Text style={styles.nextButton}>Next</Text>
+  //     //     </View>
+  //     //   </TouchableOpacity>
+
+  //     // )
+
+      
+  //   }
+  // }
 
 
 
@@ -85,23 +107,6 @@ export default class GameboardScreen extends Component {
 
   }
 
-  // checkAsyncPoint = async () =>{
-  //   let checkScore = await AsyncStorage.getItem('score')
-  //   //async function returns a promise object not the value of async storage getItem()
-    
-  //   let score = []
-  //   if (checkScore != null) {
-  //     console.log("checkScore")
-  //     dictionary = JSON.parse(checkScore)
-
-  //   }
-  //   else {
-     
-  //     console.log("blankScore")
-
-  //   }
-  //   this.setState({ checkScore: score })
-  // }
 
   showNext = () => {
     this.pointWord() 
@@ -307,7 +312,6 @@ point = this.state.level == "Difficult" ? 10 : point
       'Alert Title',
       'My Alert Msg',
       [
-        { text: 'I am bored', onPress: () => console.log('quit') },
         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
@@ -317,6 +321,19 @@ point = this.state.level == "Difficult" ? 10 : point
       ],
       { cancelable: false },
     );
+
+    // Alert.alert(
+    //   'Score',
+    //   'My Alert Msg',
+    //   [
+      
+    //     { this.state.score },
+    //   ],
+    //   { cancelable: false },
+    // );
+
+    //need to show score via alert
+
   }
 
 
@@ -354,45 +371,74 @@ point = this.state.level == "Difficult" ? 10 : point
 
     return (
       <>
-
-
-        <View style={styles.container}>
-          <View>
-
-            <Button onPress={() => this.AlertButton()} >
-              <Text style={styles.submitButtonText}>Submit</Text>
-            </Button>
-
-          </View>
-
-          
+      <View style={styles.Viewquit}>
+          <TouchableOpacity activeOpacity={0.5}
+          onPress={() => {
+            Alert.alert(
+              'Quit',
+              'Do You want to quit the game?',
+              [
+                { text: 'YES', onPress: () =>{ this.props.navigation.getParam('update')()
+                  this.props.navigation.navigate('Home') }},//console.warn('YES Pressed')
+                { text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel' },
+                
+              ]
+            );
+            //
+          }
+          }
+        >
+          <Text style={styles.quit}>Quit</Text>
+          <View 
+          />
+        </TouchableOpacity>
         </View>
+
+        <View style={styles.ViewNext}>
+           <TouchableOpacity activeOpacity={0.5}
+          disabled={this.state.valid ? false : true} onPress={() => { this.showNext()
+          }}>
+
+            <View>
+          <Text style={styles.nextButton}>Next</Text>
+          </View>
+        </TouchableOpacity>
+           </View>
+
+
+   
         <View>
         <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
+
+        <View>
+          <Text style={styles.hint}>{this.state.hint}</Text>
+
+        </View>
+
         <View style={[styles.container]}>
 
-          <Text> {this.state.valid ? 'true' : 'false'} </Text>
-
-        </View>
-
+          {/* <Text> {this.state.valid ? 'true' : 'false'} </Text> */}
+        
         <View>
-          <Text>{this.state.hint}</Text>
-
+          <Text style={styles.level}>{this.state.level}</Text>
         </View>
 
-
-        <View>
-          <Text>{this.state.level}</Text>
         </View>
+       
 
-        <View>
-        <Button disabled={this.state.valid ? false : true} onPress={() => { this.showNext()
-           }}>
-              <Text style={styles.nextButton}>Next</Text>
-            </Button>
+        <View style={styles.container}>
+          <View style={styles.alertButton}>
+
+            <TouchableOpacity onPress={() => this.AlertButton()} >
+              <Text style={styles.submitButtonText}>Submit</Text>
+            </TouchableOpacity>
+
+          </View>
+           
+        
+          
         </View>
-  
 
         {/* <View style={{height:40}}>
           <FlatList
@@ -414,7 +460,7 @@ point = this.state.level == "Difficult" ? 10 : point
 
           />
           </View> */}
-        <View style={{ height: 80 }}>
+        <View style={{ height: 60 }}>
           <DraggableFlatList
             data={this.state.userInput}
             renderItem={this.renderItem}
@@ -430,25 +476,16 @@ point = this.state.level == "Difficult" ? 10 : point
 
         </View>
 
-        <View style={[styles.container]}>
-          <TouchableOpacity
-            style={styles.submitButton}
-            onPress={() => this.caps_()}
-          >
-            <Text style={styles.submitButtonText}> CAPSLOCK </Text>
-          </TouchableOpacity>
-        </View>
-
-
+      
         <FlatGrid
-          itemDimension={65}
+          itemDimension={75}
           items={letters}
           // letterClicked={letters}
           style={styles.gridView}
 
           // staticDimension={300}
-          //fixed
-          //spacing={10}
+          // fixed
+          // spacing={10}
           renderItem={({ item, index }) => (
 
             <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
@@ -460,6 +497,15 @@ point = this.state.level == "Difficult" ? 10 : point
             </View>
           )}
         />
+        
+          <View style={[styles.container]}>
+          <TouchableOpacity
+            style={styles.capsButton}
+            onPress={() => this.caps_()}
+          >
+            <Text style={styles.capsLock}> CAPSLOCK </Text>
+          </TouchableOpacity>
+        </View>
       </>
     );
   }
@@ -469,32 +515,77 @@ const styles = StyleSheet.create({
   letters: {
     flexDirection: "row",
   },
-  submitButton: {
-    backgroundColor: "aqua",
-    width: 140,
-    padding: 20,
+  capsButton: {
+    left: 120,
+    color: "white",
+    fontWeight: 'bold',
+    fontSize:15,
+    backgroundColor: "#E77471",
+    width: 100,
+    padding: 10,
     //margin: 10,
-    alignItems: "center",
- 
-    //margin: 10
+    justifyContent: 'center',
+    textAlign: 'center',
 
   },
-  submitButtonText: {
-    color: "black",
+
+  capsLock:{
+    color: "white",
     fontWeight: 'bold',
-   
-   
+    fontSize:15,
+  },
+
+  submitButtonText: {
+    
+    color: "white",
+    fontWeight: 'bold',
+    fontSize:18,
+    backgroundColor: "#E77471",
+    width: 80,
+    padding: 5,
+    marginTop: 12,
+    justifyContent: 'center',
+    textAlign: 'center',
+ 
+    //margin: 10
+  },
+
+  Viewquit:{
+   width: 100,
+  },
+
+  ViewNext:{
+    width: -92,
+  },
+
+  quit:{
+    top: 10,
+    left: 5,
+    color: "white",
+    fontWeight: 'bold',
+    fontSize:18,
+    backgroundColor: "#E77471",
+    width: 80,
+    padding: 5,
+    //margin: 10,
+    justifyContent: 'center',
+    textAlign: 'center',
+ 
+    //margin: 10
   },
 
   nextButton: {
-    
-    color: "black",
+    top: -29,
+    left:250,
+    color: "white",
     fontWeight: 'bold',
-    backgroundColor: "aqua",
-    width: 160,
-    padding: 20,
+    fontSize:18,
+    backgroundColor: "#F7E7CE",
+    width: 90,
+    padding: 5,
     //margin: 10,
-    alignItems: "center",
+    justifyContent: 'center',
+    textAlign: 'center',
  
     //margin: 10
   },
@@ -503,42 +594,56 @@ const styles = StyleSheet.create({
 
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
-  container1: {
-    alignSelf: 'flex-start',
+  // container1: {
+  //   alignSelf: 'flex-start',
 
 
-  },
-  container2: {
-    alignSelf: 'flex-start',
-    padding: 5,
+  // },
+  // container2: {
+  //   alignSelf: 'flex-start',
+  //   padding: 5,
 
-  },
+  // },
 
   text: {
-    justifyContent: 'center',
+    justifyContent: 'center', left: 90,
     alignItems: 'center', height: 40, width: "50%",
-    borderColor: 'red', borderWidth: 2, marginTop: 20,
-    textAlign: 'center', padding: 3,
+    borderColor: 'red', borderWidth: 2, marginTop: 10,
+    textAlign: 'center', padding: 5,
   },
 
-  gridView: {
+  hint:{
+    justifyContent: 'center',
+    alignItems: 'center', height: 50, width: "100%",
+    borderColor: 'red', borderWidth: 1, marginTop: 20, marginBottom: 5,
+    textAlign: 'center', padding: 5,
+  },
 
-    flex: 1,
+  level:{   justifyContent: 'center', 
+  alignItems: 'center', height: 30, width: 100,
+  borderColor: 'red', borderWidth: 1, marginTop: 2,
+  textAlign: 'center', padding: 5,
+},
+
+  gridView: {
+     marginTop: 0
 
   },
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 1,
     height: 60,
+    width: 100,
 
   },
-  itemContainer1: {
-    justifyContent: 'flex-end',
-    borderRadius: 1,
-    height: 60,
+  // itemContainer1: {
+  //   justifyContent: 'flex-end',
+  //   borderRadius: 1,
+  //   height: 60,
 
-  },
+  // },
   itemName: {
     fontSize: 20,
 

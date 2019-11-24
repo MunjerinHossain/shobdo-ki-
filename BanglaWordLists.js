@@ -10,7 +10,7 @@ var dictionary = [
     { hint: 'পাতা থেকে প্রস্তুত প্রসিদ্ধ ও জনপ্রিয় পানীয়। ', word: "চা", level: "Easy" },
     { hint: 'কিছু অর্জনের প্রচেষ্টা', word: "চেষ্টা", level: "Easy" },
     // { hint: 'পরিশ্রমের সঙ্গে চেষ্টা।', word: "প্রয়াস", level: "Medium" },
-    { hint: 'কোন কিছু করার পদ্ধতি।', word: "উপায়", level: "Easy" },
+    //{ hint: 'কোন কিছু করার পদ্ধতি।', word: "উপায়", level: "Easy" },
     { hint: 'বাক্য গঠনের একটি অর্থপূর্ণ উপাদান।', word: "শব্দ", level: "Difficult" },
     { hint: 'পদ্ধতিগতভাবে তদন্ত করা।', word: "গবেষণা", level: "Difficult" },
     { hint: 'যা আমরা নিবরন করি।', word: "খাদ্য", level: "Easy" },
