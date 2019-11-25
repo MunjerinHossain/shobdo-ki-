@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, StyleSheet, View, Text, Alert, AsyncStorage } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Phonetic from './Avro'
 import keyboard1 from './LetterLogic'
@@ -12,13 +14,14 @@ export default class GameboardScreen extends Component {
   state = {
     usedletter: [], userInput: [], capsOn: false, bangla: [], asyncDictionary: [],
     hint: "", word: "", level: "", usedWord: [], valid: false, dictionaryCheck: false, indexSlice: [], maxLength: 0,
-    total: 0, singleWordPoint: 0}
+    total: 0, singleWordPoint: 0
+  }
 
-    static navigationOptions = ({ navigation, navigationOptions }) => {
-      return {
-        header: null
-      }
+  static navigationOptions = ({ navigation, navigationOptions }) => {
+    return {
+      header: null
     }
+  }
 
   componentDidMount() {
     this.checkAsyncStorage()
@@ -28,7 +31,7 @@ export default class GameboardScreen extends Component {
 
   // static navigationOptions = ({ navigation, navigationOptions }) => {
   //   return {
-    
+
   //     headerLeft: (
   //       <TouchableOpacity activeOpacity={0.5}
   //         onPress={() => {
@@ -60,7 +63,7 @@ export default class GameboardScreen extends Component {
   //     //     }}>
 
   //     //       <View>
-              
+
   //     //   <Text>dsds {this.state.valid}</Text>
   //     //     <Text style={styles.nextButton}>Next</Text>
   //     //     </View>
@@ -68,7 +71,7 @@ export default class GameboardScreen extends Component {
 
   //     // )
 
-      
+
   //   }
   // }
 
@@ -101,7 +104,7 @@ export default class GameboardScreen extends Component {
       console.log("blank")
 
     }
-    this.setState({ asyncDictionary: dictionary, maxLength: dictionary.length-1}, () => {
+    this.setState({ asyncDictionary: dictionary, maxLength: dictionary.length - 1 }, () => {
       this.generateWord(dictionary)
     })
 
@@ -109,18 +112,21 @@ export default class GameboardScreen extends Component {
 
 
   showNext = () => {
-    this.pointWord() 
+    
     //splicing
-    let indexSlice = this.state.indexSlice
+    if(this.state.valid)
+    { alert('dhdh')
+      
+      let indexSlice = this.state.indexSlice
     let dictionary = this.state.asyncDictionary
     dictionary.splice(indexSlice, 1)
 
     console.log("Spliced" + indexSlice)
-  this.setState({maxLength: dictionary.length}, ()=>{
-    this.generateWord(dictionary)
-  })
-    
+    this.setState({ maxLength: dictionary.length }, () => {
+      this.generateWord(dictionary)
+    })}
 
+    // this.state.valid ? 'true' : 'false'
     // this.setState({})
 
   }
@@ -149,36 +155,48 @@ export default class GameboardScreen extends Component {
     let match2 = this.state.word
 
     if (match1 === match2) {
+      this.pointWord()
       this.setState({ valid: true })
 
+    }
+    else{
+      Alert.alert(
+        'Wrong! Try again',
+        
+      );
     }
 
   }
 
-  pointWord = ()=>{
+  pointWord = () => {
     //point systems
     // let all = this.state.asyncDictionary
     // console.log("di"+ all.map((all)=>(all.level,this.state.index)))
     // let pointLevel = this.state.level
     // console.log("level"+ pointLevel)
-let point = 0
-point = this.state.level == "Easy" ? 3 : point
-point = this.state.level == "Medium" ? 5 : point
-point = this.state.level == "Difficult" ? 10 : point
+    let point = 0
+    point = this.state.level == "Easy" ? 3 : point
+    point = this.state.level == "Medium" ? 5 : point
+    point = this.state.level == "Difficult" ? 10 : point
 
-  // if(pointLevel === all){
+    // if(pointLevel === all){
     let score = (this.state.level.length) + point
-    let total= this.state.total + score
-    this.setState({total:total, singleWordPoint:score}, ()=> {this.storePoint(total)})
+    let total = this.state.total + score
+    this.setState({ total: total, singleWordPoint: score }, () => { 
+      Alert.alert(
+        'Your score: \n' + (this.state.singleWordPoint),
+        
+      );
+      this.storePoint(total) })
     //async store total score
 
-    console.log("point"+ score)
-   //}
+    console.log("point" + score)
+    //}
 
   }
 
   //stores data
-  storeToken = async(dictionary) =>{
+  storeToken = async (dictionary) => {
     try {
       await AsyncStorage.setItem('dictionary', JSON.stringify(dictionary));
       console.log('store' + JSON.stringify(dictionary))
@@ -188,7 +206,7 @@ point = this.state.level == "Difficult" ? 10 : point
   }
 
   //gets data
- getToken = async() => {
+  getToken = async () => {
     try {
 
       let data = await AsyncStorage.getItem('dictionary')
@@ -208,7 +226,7 @@ point = this.state.level == "Difficult" ? 10 : point
       console.log("Something went wrong", error);
     }
   }
- storePoint= async(total)=>{
+  storePoint = async (total) => {
 
     try {
       await AsyncStorage.setItem('score', JSON.stringify(total));
@@ -216,23 +234,23 @@ point = this.state.level == "Difficult" ? 10 : point
     } catch (error) {
       console.log("Something went wrong", error);
     }
-   }
+  }
 
-    getPoint = async() =>{
+  getPoint = async () => {
     try {
 
       let storePoint = await AsyncStorage.getItem('score')
       if (storePoint != null) {
         console.log('getScore' + JSON.parse(JSON.stringify(storePoint)))
         let save = Number(storePoint)
-        this.setState({ total:save })
+        this.setState({ total: save })
 
       }
 
     } catch (error) {
       console.log("Something went wrong", error);
     }
-   }
+  }
 
 
   letterClicked = (item, index) => {
@@ -249,9 +267,9 @@ point = this.state.level == "Difficult" ? 10 : point
     }
 
     let banglaWord = this.convertEngToBan(compositionbox)
-    let valid = this.validateWord(banglaWord)
+    //let valid = this.validateWord(banglaWord)
 
-    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid: valid })
+    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord })
 
 
   }
@@ -272,8 +290,8 @@ point = this.state.level == "Difficult" ? 10 : point
     let disabledletter = this.state.usedletter
     disabledletter.splice(disabledIndex, 1)
     let banglaWord = this.convertEngToBan(compositionbox)
-    let valid = this.validateWord(banglaWord)
-    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord, valid: valid })
+    // let valid = this.validateWord(banglaWord)
+    this.setState({ usedletter: disabledletter, userInput: compositionbox, bangla: banglaWord})
   }
 
   convertEngToBan = (userInput) => {
@@ -309,8 +327,10 @@ point = this.state.level == "Difficult" ? 10 : point
 
   AlertButton() {
     Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
+      'Submit your guess',
+      'are you sure about your word? \n Lets see!',
+     
+
       [
         {
           text: 'Cancel',
@@ -326,7 +346,7 @@ point = this.state.level == "Difficult" ? 10 : point
     //   'Score',
     //   'My Alert Msg',
     //   [
-      
+
     //     { this.state.score },
     //   ],
     //   { cancelable: false },
@@ -353,62 +373,58 @@ point = this.state.level == "Difficult" ? 10 : point
       { name: 's' }, { name: 't' },
       { name: 'u' }, { name: 'v' },
       { name: 'w' }, { name: 'x' },
-      { name: 'y' }, { name: 'z' },
+      { name: '' }, { name: 'y' }, { name: 'z' }, { name: '' },
 
     ];
-
-    // let letters = []
-    // let temp = keyboard1()
-    // console.log("render")
-    // temp.forEach((item)=> {
-    //   //console.log(item)
-    //  letters.push({name: item.letter})
-    // })
-    // //console.log("game", letters)
 
 
 
 
     return (
       <>
-      <View style={styles.Viewquit}>
+        <View style={styles.Viewquit}>
           <TouchableOpacity activeOpacity={0.5}
-          onPress={() => {
-            Alert.alert(
-              'Quit',
-              'Do You want to quit the game?',
-              [
-                { text: 'YES', onPress: () =>{ this.props.navigation.getParam('update')()
-                  this.props.navigation.navigate('Home') }},//console.warn('YES Pressed')
-                { text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel' },
-                
-              ]
-            );
-            //
-          }
-          }
-        >
-          <Text style={styles.quit}>Quit</Text>
-          <View 
-          />
-        </TouchableOpacity>
+            onPress={() => {
+              Alert.alert(
+                'Quit',
+                'Do You want to quit the game?',
+                [
+                  {
+                    text: 'YES', onPress: () => {
+                      this.props.navigation.getParam('update')()
+                      this.props.navigation.navigate('Home')
+                    }
+                  },//console.warn('YES Pressed')
+                  { text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel' },
+
+                ]
+              );
+              //
+            }
+            }
+          >
+            <Text style={styles.quit}>Quit</Text>
+            <View
+            />
+          </TouchableOpacity>
         </View>
 
-        <View style={styles.ViewNext}>
-           <TouchableOpacity activeOpacity={0.5}
-          disabled={this.state.valid ? false : true} onPress={() => { this.showNext()
-          }}>
+        {this.state.valid && <View style={styles.ViewNext}>
+          <TouchableOpacity
+             onPress={() => {
+              this.showNext()
+            }}>
 
             <View>
-          <Text style={styles.nextButton}>Next</Text>
-          </View>
-        </TouchableOpacity>
-           </View>
+              <Text style={styles.nextButton}>Next</Text>
+            </View>
+          </TouchableOpacity>
+        </View>}
 
 
-   
-        <View>
-        <Text style={styles.text}>{this.state.bangla}</Text>
+
+        <View  style={{marginTop: 45}}>
+          <Text style={styles.text}>{this.state.bangla}</Text>
         </View>
 
         <View>
@@ -419,26 +435,25 @@ point = this.state.level == "Difficult" ? 10 : point
         <View style={[styles.container]}>
 
           {/* <Text> {this.state.valid ? 'true' : 'false'} </Text> */}
-        
-        <View>
-          <Text style={styles.level}>{this.state.level}</Text>
-        </View>
+
+          <View>
+            <Text style={styles.level}>{this.state.level}  <FontAwesomeIcon icon={ faUnlockAlt } /></Text>
+          </View>
 
         </View>
-       
 
-        <View style={styles.container}>
+
+     { !this.state.valid &&   <View style={styles.container}>
           <View style={styles.alertButton}>
-
+           
             <TouchableOpacity onPress={() => this.AlertButton()} >
-              <Text style={styles.submitButtonText}>Submit</Text>
+           
+              {/* <Text style={styles.submitButtonText}>Submit</Text> */}
             </TouchableOpacity>
 
           </View>
-           
-        
-          
-        </View>
+
+        </View>}
 
         {/* <View style={{height:40}}>
           <FlatList
@@ -469,14 +484,13 @@ point = this.state.level == "Difficult" ? 10 : point
             scrollPercent={5}
             onMoveEnd={({ data }) => {
               let banglaWord = this.convertEngToBan(data)
-              let valid = this.validateWord(banglaWord)
-              this.setState({ userInput: data, bangla: banglaWord, valid: valid })
+              this.setState({ userInput: data, bangla: banglaWord })
             }}
           />
 
         </View>
 
-      
+
         <FlatGrid
           itemDimension={75}
           items={letters}
@@ -490,15 +504,14 @@ point = this.state.level == "Difficult" ? 10 : point
 
             <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
               <TouchableOpacity onPress={() => { this.letterClicked(item, index) }}>
-                <Text style={styles.itemName}>{(this.state.capsOn ? item.name.toLocaleUpperCase() : item.name)}
+                <Text style={item.name ? styles.itemName : styles.emptyName}>{(this.state.capsOn ? item.name.toLocaleUpperCase() : item.name)}
                 </Text></TouchableOpacity>
-              <Text style={styles.itemCode}>{item.code}</Text>
-
+              {/* <Text style={styles.itemCode}>{item.code}</Text> */}
             </View>
           )}
         />
-        
-          <View style={[styles.container]}>
+
+        <View style={[styles.containerCap]}>
           <TouchableOpacity
             style={styles.capsButton}
             onPress={() => this.caps_()}
@@ -515,78 +528,89 @@ const styles = StyleSheet.create({
   letters: {
     flexDirection: "row",
   },
+
+  containerCap: {
+
+
+    backgroundColor: '#FDEDEC',
+  },
+
   capsButton: {
-    left: 120,
+    left: 250,
     color: "white",
     fontWeight: 'bold',
-    fontSize:15,
-    backgroundColor: "#E77471",
+    fontSize: 15,
+    backgroundColor: "#008000",
     width: 100,
-    padding: 10,
+    padding: 5,
     //margin: 10,
     justifyContent: 'center',
     textAlign: 'center',
 
   },
 
-  capsLock:{
-    color: "white",
+  capsLock: {
+    color: "#EAFAF1",
     fontWeight: 'bold',
-    fontSize:15,
+    fontSize: 15,
+
   },
 
   submitButtonText: {
-    
+
     color: "white",
     fontWeight: 'bold',
-    fontSize:18,
-    backgroundColor: "#E77471",
+    fontSize: 18,
+    backgroundColor: "#1B4F72",
     width: 80,
     padding: 5,
     marginTop: 12,
     justifyContent: 'center',
     textAlign: 'center',
- 
+
     //margin: 10
   },
 
-  Viewquit:{
-   width: 100,
-  },
-
-  ViewNext:{
-    width: -92,
-  },
-
-  quit:{
-    top: 10,
+  Viewquit: {
+    top: 11,
     left: 5,
+    width: 100,
+  },
+
+  ViewNext: {
+    top: -20,
+    left: 250,
+    width: 90,
+    marginBottom: -30,
+  },
+
+  quit: {
+   
     color: "white",
     fontWeight: 'bold',
-    fontSize:18,
+    fontSize: 18,
     backgroundColor: "#E77471",
     width: 80,
     padding: 5,
     //margin: 10,
     justifyContent: 'center',
     textAlign: 'center',
- 
+
     //margin: 10
   },
 
   nextButton: {
-    top: -29,
-    left:250,
+    
     color: "white",
     fontWeight: 'bold',
-    fontSize:18,
-    backgroundColor: "#F7E7CE",
-    width: 90,
+    fontSize: 18,
+    backgroundColor: "#ABEBC6",
+    width: 100,
     padding: 5,
     //margin: 10,
     justifyContent: 'center',
     textAlign: 'center',
- 
+
     //margin: 10
   },
 
@@ -594,48 +618,49 @@ const styles = StyleSheet.create({
 
     justifyContent: 'center',
     alignItems: 'center',
-    
   },
-  // container1: {
-  //   alignSelf: 'flex-start',
+  // containerCap: {
 
 
+  //   backgroundColor: '#FDEDEC',
   // },
   // container2: {
   //   alignSelf: 'flex-start',
   //   padding: 5,
-
+  //   backgroundColor: '#FDEDEC',
   // },
 
   text: {
     justifyContent: 'center', left: 90,
     alignItems: 'center', height: 40, width: "50%",
-    borderColor: 'red', borderWidth: 2, marginTop: 10,
-    textAlign: 'center', padding: 5,
+    borderColor: '#61380B', borderWidth: 2, marginTop: 10,
+    textAlign: 'center', padding: 5, backgroundColor: '#F7F8E0',
   },
 
-  hint:{
+  hint: {
     justifyContent: 'center',
     alignItems: 'center', height: 50, width: "100%",
-    borderColor: 'red', borderWidth: 1, marginTop: 20, marginBottom: 5,
-    textAlign: 'center', padding: 5,
+    borderColor: '#61380B', borderWidth: 1, marginTop: 20, marginBottom: 5,
+    textAlign: 'center', padding: 5, backgroundColor: '#FBF2EF',
   },
 
-  level:{   justifyContent: 'center', 
-  alignItems: 'center', height: 30, width: 100,
-  borderColor: 'red', borderWidth: 1, marginTop: 2,
-  textAlign: 'center', padding: 5,
-},
+  level: {
+    justifyContent: 'center',
+    alignItems: 'center', height: 30, width: 100,
+    borderColor: '#61380B', borderWidth: 1, marginTop: 2,
+    textAlign: 'center', padding: 5, backgroundColor: '#FBF2EF',
+  },
 
   gridView: {
-     marginTop: 0
-
+    marginTop: 0,
+    backgroundColor: '#F2F2F2',
   },
   itemContainer: {
     justifyContent: 'flex-end',
     borderRadius: 1,
-    height: 60,
-    width: 100,
+    height: 34,
+    width: 80,
+
 
   },
   // itemContainer1: {
@@ -649,22 +674,23 @@ const styles = StyleSheet.create({
 
     color: 'black',
     fontWeight: '600',
-    borderColor: 'black',
+    borderColor: '#0174DF',
     borderWidth: 1,
-    maxHeight: 100,
-    maxWidth: 80,
+    maxHeight: 150,
+    maxWidth: 72,
     padding: 2,
     textAlign: 'center',
 
   },
-  itemCode: {
-    fontWeight: '600',
-    fontSize: 12,
-    color: '#fff',
+  // itemCode: {
+  //   fontWeight: '600',
+  //   fontSize: 12,
+  //   color: '#F9E79F',
+  //   backgroundColor: '#FDEDEC',
+  // },
+
+  emptyName: {
 
   },
-
-
-
 
 });
