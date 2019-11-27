@@ -404,12 +404,11 @@ export default class GameboardScreen extends Component {
             }
           >
             <Text style={styles.quit}>Quit</Text>
-            <View
-            />
+            
           </TouchableOpacity>
         </View>
 
-        <View style={styles.ViewNext}> 
+ {  this.state.valid &&     <View style={styles.ViewNext}> 
           <TouchableOpacity
              onPress={() => {
               this.showNext()
@@ -419,7 +418,7 @@ export default class GameboardScreen extends Component {
               <Text style={styles.nextButton}>Next</Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </View>}
 
 
 

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button, View, Text, Style, StyleSheet, Alert, TouchableOpacity, AsyncStorage } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUsersCog } from '@fortawesome/free-solid-svg-icons';
+import { faMehRollingEyes } from '@fortawesome/free-solid-svg-icons';
 
 export default class NewGameScreen extends React.Component {
 
@@ -40,14 +41,17 @@ export default class NewGameScreen extends React.Component {
   render() {
     return (
       <>
-        <View>
-        <FontAwesomeIcon icon={ faUsersCog } />  <Text style={styles.name}>শব্দ কি?  </Text>
-        </View>
 
         <View style={styles.container}>
 
+          <View style={styles.logoTop}>
+          <FontAwesomeIcon
+            icon={faMehRollingEyes} style={{ color: "#424949", margin: 5 }} size={50} />
+            </View>
 
-
+          <View>
+            <Text style={styles.name}>শব্দ কি?  </Text>
+          </View>
           <View>
             <Text style={styles.home}>Total Points:</Text>
           </View>
@@ -63,14 +67,21 @@ export default class NewGameScreen extends React.Component {
           <View>
             <TouchableOpacity
               style={styles.start}
-              onPress={() => this.props.navigation.navigate('Gameboard', { update: this.getPoint })}
-
-            >
+              onPress={() => this.props.navigation.navigate('Gameboard', { update: this.getPoint })}>
               <Text style={styles.startText}> Play </Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.settings}>
+            <TouchableOpacity>
+              <FontAwesomeIcon
+                icon={faUsersCog} style={{ color: "#424949", margin: 5 }} size={40} />
+            </TouchableOpacity>
+          </View>
+
 
         </View>
+
+
       </>
 
 
@@ -85,10 +96,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFF0'
   },
 
+  logoTop:{
+    top: -145,
+    left: -60,
+
+  },
+
   name: {
     backgroundColor: '#FFFFF0',
-    top: 5,
-    left:5,
+    top: -195,
+    left: 25,
     fontWeight: 'bold',
     fontSize: 30,
     color: '#415053',
@@ -96,12 +113,16 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 5,
+  },
 
-
+  settings: {
+    position: 'absolute',
+    bottom: 0,
+    left: 295,
   },
 
   home: {
-
+    top: -40,
     fontWeight: 'bold',
     fontSize: 40,
   },
@@ -109,7 +130,7 @@ const styles = StyleSheet.create({
   start: {
     fontWeight: 'bold',
     fontSize: 20,
-    backgroundColor: '#F35C55',
+    backgroundColor: '#EC7063',
     padding: 10,
     width: 80,
     textAlign: 'center',
@@ -118,15 +139,13 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 20,
-
-
   },
 
   scoreViewer: {
     justifyContent: 'center',
     alignItems: 'center', width: 150,
     backgroundColor: '#FFEBCD', fontSize: 20, fontWeight: 'bold',
-    borderColor: 'black', borderWidth: 1, marginTop: 40, marginBottom: 50,
+    borderColor: 'black', borderWidth: 1, marginTop: 0, marginBottom: 50,
 
     textAlign: 'center', padding: 10,
   },
