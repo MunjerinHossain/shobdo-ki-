@@ -115,7 +115,7 @@ export default class GameboardScreen extends Component {
     
     //splicing
     if(this.state.valid)
-    { alert('dhdh')
+    {
       
       let indexSlice = this.state.indexSlice
     let dictionary = this.state.asyncDictionary
@@ -325,36 +325,36 @@ export default class GameboardScreen extends Component {
     )
   }
 
-  AlertButton() {
-    Alert.alert(
-      'Submit your guess',
-      'are you sure about your word? \n Lets see!',
+  // AlertButton() {
+  //   Alert.alert(
+  //     'Submit your guess',
+  //     'are you sure about your word? \n Lets see!',
      
 
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        { text: 'Confirm', onPress: () => this.validateWord() },
-      ],
-      { cancelable: false },
-    );
+  //     [
+  //       {
+  //         text: 'Cancel',
+  //         onPress: () => console.log('Cancel Pressed'),
+  //         style: 'cancel',
+  //       },
+  //       { text: 'Confirm', onPress: () => this.validateWord() },
+  //     ],
+  //     { cancelable: false },
+  //   );
 
-    // Alert.alert(
-    //   'Score',
-    //   'My Alert Msg',
-    //   [
+  //   // Alert.alert(
+  //   //   'Score',
+  //   //   'My Alert Msg',
+  //   //   [
 
-    //     { this.state.score },
-    //   ],
-    //   { cancelable: false },
-    // );
+  //   //     { this.state.score },
+  //   //   ],
+  //   //   { cancelable: false },
+  //   // );
 
-    //need to show score via alert
+  //   //need to show score via alert
 
-  }
+  // }
 
 
   render() {
@@ -409,7 +409,7 @@ export default class GameboardScreen extends Component {
           </TouchableOpacity>
         </View>
 
-        {this.state.valid && <View style={styles.ViewNext}>
+        <View style={styles.ViewNext}> 
           <TouchableOpacity
              onPress={() => {
               this.showNext()
@@ -419,7 +419,7 @@ export default class GameboardScreen extends Component {
               <Text style={styles.nextButton}>Next</Text>
             </View>
           </TouchableOpacity>
-        </View>}
+        </View>
 
 
 
@@ -437,7 +437,7 @@ export default class GameboardScreen extends Component {
           {/* <Text> {this.state.valid ? 'true' : 'false'} </Text> */}
 
           <View>
-            <Text style={styles.level}>{this.state.level}  <FontAwesomeIcon icon={ faUnlockAlt } /></Text>
+            <Text style={styles.level}>{this.state.level}</Text>
           </View>
 
         </View>
@@ -446,9 +446,9 @@ export default class GameboardScreen extends Component {
      { !this.state.valid &&   <View style={styles.container}>
           <View style={styles.alertButton}>
            
-            <TouchableOpacity onPress={() => this.AlertButton()} >
+            <TouchableOpacity onPress={() => this.validateWord()} >
            
-              {/* <Text style={styles.submitButtonText}>Submit</Text> */}
+              <Text style={styles.submitButtonText}>Submit</Text>
             </TouchableOpacity>
 
           </View>
@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
   },
 
   capsButton: {
-    left: 250,
+    left: 255,
     color: "white",
     fontWeight: 'bold',
     fontSize: 15,
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
     //margin: 10,
     justifyContent: 'center',
     textAlign: 'center',
-
+    borderRadius: 15,
   },
 
   capsLock: {
@@ -562,12 +562,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     backgroundColor: "#1B4F72",
-    width: 80,
-    padding: 5,
+    width: 82,
+    padding: 7,
     marginTop: 12,
     justifyContent: 'center',
     textAlign: 'center',
-
+    borderRadius: 8,
     //margin: 10
   },
 
@@ -575,13 +575,16 @@ const styles = StyleSheet.create({
     top: 11,
     left: 5,
     width: 100,
+    alignItems: 'center',
+    
   },
 
   ViewNext: {
-    top: -20,
+    top: -25,
     left: 250,
-    width: 90,
+    width: 95,
     marginBottom: -30,
+    alignItems: 'center',
   },
 
   quit: {
@@ -589,12 +592,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: 'bold',
     fontSize: 18,
-    backgroundColor: "#E77471",
-    width: 80,
-    padding: 5,
+    backgroundColor: "#EDBB99",
+    width: 85,
+    padding: 6,
     //margin: 10,
     justifyContent: 'center',
     textAlign: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
 
     //margin: 10
   },
@@ -604,12 +609,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: 'bold',
     fontSize: 18,
-    backgroundColor: "#ABEBC6",
-    width: 100,
-    padding: 5,
+    backgroundColor: "#5DADE2",
+    width: 94,
+    padding: 6,
     //margin: 10,
     justifyContent: 'center',
     textAlign: 'center',
+    borderRadius: 8,
 
     //margin: 10
   },

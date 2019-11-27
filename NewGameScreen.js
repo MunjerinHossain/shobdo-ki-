@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, View, Text, Style, StyleSheet, Alert, TouchableOpacity, AsyncStorage } from 'react-native';
-
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUsersCog } from '@fortawesome/free-solid-svg-icons';
 
 export default class NewGameScreen extends React.Component {
 
@@ -40,7 +41,7 @@ export default class NewGameScreen extends React.Component {
     return (
       <>
         <View>
-          <Text style={styles.name}>শব্দ কি?  </Text>
+        <FontAwesomeIcon icon={ faUsersCog } />  <Text style={styles.name}>শব্দ কি?  </Text>
         </View>
 
         <View style={styles.container}>
