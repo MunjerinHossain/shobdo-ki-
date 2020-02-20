@@ -1,3 +1,11 @@
+ Features of the application:
+ 1. It's an offline game
+ 2. Phonetic lookup.
+ 3. Learning Bengali words with its definition.
+ 4. Get a score with its difficulty level.
+
+Screenshot of this application added below:
+
 ![image](https://user-images.githubusercontent.com/47174703/74971573-83934000-544a-11ea-95fe-d35d882eb407.jpg)
 ![image](https://user-images.githubusercontent.com/47174703/74971639-9f96e180-544a-11ea-9009-0a0f8cfc38ef.jpg)
 ![3](https://user-images.githubusercontent.com/47174703/74971840-eedd1200-544a-11ea-8255-5fc39847afc6.jpg)
